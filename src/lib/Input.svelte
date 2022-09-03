@@ -1,5 +1,5 @@
 <script>
-    import { loanAmount, loanTerm, interestRate } from './stores';
+    import { loanAmount, loanTerm, interestRate, extraPayment } from './stores';
 </script>
 
 <table>
@@ -14,6 +14,10 @@
     <tr>
         <td><span>Interest Rate:</span></td>
         <td><input bind:value={$interestRate}></td>
+    </tr>
+    <tr>
+        <td><span>Extra Payment:</span></td>
+        <td><input bind:value={$extraPayment}></td>
     </tr>
 </table>
 

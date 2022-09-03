@@ -1,6 +1,6 @@
 <script>
 
-import { amortizationSchedule } from './stores';
+import { amortizationSchedule, interestRate } from './stores';
 
 </script>
 
@@ -8,18 +8,45 @@ import { amortizationSchedule } from './stores';
 <table>
     <tr>
         <th>Month</th>
+        <th>Cost</th>
         <th>Payment</th>
-        <th>Interest</th>
+        <th>Outstanding Principal</th>
+        <th>Outstanding Interest</th>
         <th>Principal</th>
-        <th>Outstanding Balance</th>
+        <th>Interest</th>
+        <th>Extra Payment</th>
+        <th>Reduced Principal</th>
+        <th>Interest Saved</th>
+        <th>Invested</th>
+        <th>Savings</th>
     </tr>
-    {#each $amortizationSchedule as {month, payment, balance, toInterest, toPrincipal}}
+    {#each $amortizationSchedule as {
+        month,
+        cost,
+        payment,
+        balance,
+        interest,
+        toPrincipal,
+        toInterest,
+        extra,
+        reducedBalance,
+        interestSaved,
+        invested,
+        savings,
+        }}
     <tr>
         <td>{month}</td>
+        <td>{cost}</td>
         <td>{payment}</td>
-        <td>{toInterest}</td>
-        <td>{toPrincipal}</td>
         <td>{balance}</td>
+        <td>{interest}</td>
+        <td>{toPrincipal}</td>
+        <td>{toInterest}</td>
+        <td>{extra}</td>
+        <td>{reducedBalance}</td>
+        <td>{interestSaved}</td>
+        <td>{invested}</td>
+        <td>{savings}</td>
     </tr>
     {/each}
 </table>
