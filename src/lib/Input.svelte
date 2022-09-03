@@ -2,22 +2,25 @@
     import { loanAmount, loanTerm, interestRate } from './stores';
 </script>
 
-<label>
-    <span>Loan Amount:</span>
-    <input bind:value={$loanAmount} >
-</label>
+<table>
+    <tr>
+        <td><span>Loan Amount:</span></td>
+        <td><input bind:value={$loanAmount} ></td>
+    </tr>
+    <tr>
+        <td><span>Loan Term:</span></td>
+        <td><input bind:value={$loanTerm}></td>
+    </tr>
+    <tr>
+        <td><span>Interest Rate:</span></td>
+        <td><input bind:value={$interestRate}></td>
+    </tr>
+</table>
 
-<label>
-    <span>Loan Term:</span>
-    <input bind:value={$loanTerm}>
-</label>
-
-<label>
-    <span>Interest Rate:</span>
-    <input bind:value={$interestRate}>
-</label>
 
 <style>
-	label { display: flex }
-	input, p { margin: 6px }
+table {
+    margin: auto;
+    padding: 1em;
+}
 </style>

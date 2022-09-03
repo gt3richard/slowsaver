@@ -3,6 +3,7 @@ import { writable, derived } from 'svelte/store';
 export const loanAmount = writable(0);
 export const loanTerm = writable(0);
 export const interestRate = writable(0);
+export const extraPayment = writable(0);
 
 
 function calculateMonthlyPayments(principal, rate, term) {
@@ -20,19 +21,27 @@ function calculateOutstandingBalance(principal, rate, term, payments) {
 
 function calculateMonthlySchedule(principal, rate, term) {
     let schedule = [];
-    for (let i = 0; i < term; i++) {
+    let monthlyPayment = calculateMonthlyPayments(principal, rate, term);
+    let previousRemainingBalance = principal;
+    for (let i = 0; i <= term; i++) {
         let remainingBalance = calculateOutstandingBalance(principal, rate, term, i)
-        schedule.push({ month: i, balance: remainingBalance })
+        let principalPaid = previousRemainingBalance - remainingBalance;
+        let interestPaid = monthlyPayment - principalPaid;
+        if(i > 0) {
+            schedule.push({ 
+                month: i,
+                payment: monthlyPayment.toFixed(2),
+                balance: remainingBalance.toFixed(2),
+                toInterest: interestPaid.toFixed(2),
+                toPrincipal: principalPaid.toFixed(2)
+            })
+        }
+        previousRemainingBalance = remainingBalance;
     }
     return schedule;
 }
 
-export const monthlyPayment = derived(
-    [loanAmount, loanTerm, interestRate],
-    $store => calculateMonthlyPayments($store[0], $store[2], $store[1])
-);
-
-export const outstandingBalance = derived(
+export const amortizationSchedule = derived(
     [loanAmount, loanTerm, interestRate],
     $store => calculateMonthlySchedule($store[0], $store[2], $store[1])
 );

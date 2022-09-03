@@ -1,6 +1,6 @@
 <script>
 
-import { monthlyPayment, outstandingBalance } from './stores';
+import { amortizationSchedule } from './stores';
 
 </script>
 
@@ -9,13 +9,17 @@ import { monthlyPayment, outstandingBalance } from './stores';
     <tr>
         <th>Month</th>
         <th>Payment</th>
+        <th>Interest</th>
+        <th>Principal</th>
         <th>Outstanding Balance</th>
     </tr>
-    {#each $outstandingBalance as {month, balance}}
+    {#each $amortizationSchedule as {month, payment, balance, toInterest, toPrincipal}}
     <tr>
-        <td>{month + 1}</td>
-        <td>{$monthlyPayment.toLocaleString("en-US")}</td>
-        <td>{balance.toLocaleString("en-US")}</td>
+        <td>{month}</td>
+        <td>{payment}</td>
+        <td>{toInterest}</td>
+        <td>{toPrincipal}</td>
+        <td>{balance}</td>
     </tr>
     {/each}
 </table>
