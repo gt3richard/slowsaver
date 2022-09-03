@@ -1,21 +1,23 @@
 <script>
-  import svelteLogo from './assets/svelte.svg'
-  import Counter from './lib/Counter.svelte'
+  import Input from './lib/Input.svelte';
+  import Grid from './lib/Grid.svelte';
+
+  import { loanAmount, loanTerm, interestRate } from './lib/stores';
+  loanAmount.set(500000);
+  loanTerm.set(360);
+  interestRate.set(0.03);
+
 </script>
 
 <main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank"> 
-      <img src="/vite.svg" class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank"> 
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
+  <h1>Slow Saver</h1>
+  
+  <div class="card">
+    <Input />
   </div>
-  <h1>Vite + Svelte</h1>
 
   <div class="card">
-    <Counter />
+    <Grid />
   </div>
 
   <p>
