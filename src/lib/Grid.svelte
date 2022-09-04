@@ -8,7 +8,8 @@ import { amortizationSchedule, interestRate } from './stores';
 <table>
     <tr>
         <th colspan="6">Baseline</th>
-        <th colspan="3" class="pp">Pre Payment</th>
+        <th colspan="5" class="pp">Pre Payment</th>
+        <th colspan="2" class="hy">High Yield</th>
     </tr>
     <tr>
         <th>Month</th>
@@ -20,43 +21,44 @@ import { amortizationSchedule, interestRate } from './stores';
         <th class="pp">Interest</th>
         <th class="pp">Principal</th>
         <th class="pp">Balance</th>
-        
-        <!-- <th>Early Payoff Profit</th> -->
-        <!-- <th>Invested</th> -->
-        <!-- <th>Savings</th> -->
-        <!-- <th>Savings at Payoff</th> -->
-        <!-- <th>Savings Profit</th> -->
-        <!-- <th>Diff</th> -->
+        <th class="pp">Savings</th>
+        <th class="pp">Profit</th>
+
+        <th class="hy">Savings</th>
+        <th class="hy">Profit</th>
     </tr>
     {#each $amortizationSchedule as {
         month,
         cost,
         payment,
-        balance,
         interest,
-        toPrincipal,
-        toInterest,
-        extra,
-        reducedBalance,
-        interestSaved,
-        invested,
-        savings,
-        payoff,
-        savingsProfit,
-        payoffProfit,
-        diff,
+        principal,
+        balance,
+        ppCost,
+        ppInterest,
+        ppPrincipal,
+        ppBalance,
+        ppSavings,
+        ppProfit,
+        hySavings,
+        hyProfit,
         }}
     <tr>
         <td>{month}</td>
         <td>{cost}</td>
         <td>{payment}</td>
-        <td>{toInterest}</td>
-        <td>{toPrincipal}</td>
+        <td>{interest}</td>
+        <td>{principal}</td>
         <td>{balance}</td>
         <!-- <td>{interest}</td> -->
-        <td class="pp">{interestSaved}</td>
-        <td class="pp">{extra}</td>
-        <td class="pp">{reducedBalance}</td>
+        <td class="pp">{ppInterest}</td>
+        <td class="pp">{ppPrincipal}</td>
+        <td class="pp">{ppBalance}</td>
+        <td class="pp">{ppSavings}</td>
+        <td class="pp">{ppProfit}</td>
+
+        <td class="hy">{hySavings}</td>
+        <td class="hy">{hyProfit}</td>
         
         <!-- <td>{payoffProfit}</td> -->
         <!-- <td>{invested}</td> -->
@@ -94,5 +96,12 @@ th.pp {
 }
 td.pp {
     background-color: #523815;
+}
+th.hy {
+    background-color: #b8e99d;
+    border: solid 1px #b8e99d;
+}
+td.hy {
+    background-color: #1f5215;
 }
 </style>

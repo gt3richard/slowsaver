@@ -18,7 +18,8 @@ function calculateRemainingBalance(principal, apy, numOfPayments, payment) {
     const n = numOfPayments;
     const p = payment;
 
-    return (pv * ((1 + r) ** n)) - (p * ((((1 + r) ** n) - 1) / r));
+    const fv = (pv * ((1 + r) ** n)) - (p * ((((1 + r) ** n) - 1) / r));
+    return Math.max(fv, 0);
 }
 
 function calculateMonthlySchedule(principal, rate, term, extra) {
@@ -48,13 +49,12 @@ function calculateMonthlySchedule(principal, rate, term, extra) {
         let reducedBalance = calculateRemainingBalance(principal, rate, month, monthlyPayment + extra)
         
         //Payment 
-        let extraPayment = !reducedBalance ? Math.max(pastReducedBalance, 0) : parseFloat(extra);
+        sumExtraPayment += !reducedBalance ? Math.max(pastReducedBalance, 0) : parseFloat(extra);
         sumPayment += monthlyPayment;
-        sumExtraPayment += extraPayment;
+        let extraPayment = (reducedBalance ? sumExtraPayment : 0) 
         
         // Cost breakdown
         let cost = Math.max(finalCost - sumPayment, 0);
-        let interest = cost - balance;
         
         // Payment breakdown
         let interestPaid = pastBalance * (rate/12);
@@ -62,36 +62,34 @@ function calculateMonthlySchedule(principal, rate, term, extra) {
         
         // Early Payoff
         let reducedInterest = pastReducedBalance * (rate/12);
-        let reducedPrincipal = monthlyPayment - reducedInterest + extra;
-        
-
-        //sumInterestSaved += interestSaved;
+        let reducedPrincipal = reducedBalance ? monthlyPayment - reducedInterest + extra : pastReducedBalance;
+        sumInterestSaved += reducedBalance ? (interestPaid - reducedInterest): 0;
+        let ppSavings = sumInterestSaved;
+        let ppProfit = extraPayment + ppSavings;
 
         // Savings
-        sumSavings = (sumSavings * (1 + monthlyRate)) + extraPayment;
-        let savingsAtPayoff = 0//sumSavings + (monthlyRate * (term - payments))*sumSavings;
-
-        //Profit
-        let savingsProfit = savingsAtPayoff - sumInterestSaved;
-        let payoffProfit = sumExtraPayment + sumInterestSaved;
+        sumSavings = (sumSavings * (1 + monthlyRate)) + (reducedBalance ? parseFloat(extra) : 0);
+        let hySavings = sumSavings + ((monthlyRate * (term - month)) * sumSavings);
+        let hyProfit = hySavings - ppSavings;
 
         schedule.push({ 
+            // Baseline
             month: month,
             cost: cost.toFixed(2),
             payment: monthlyPayment.toFixed(2),
+            interest: interestPaid.toFixed(2),
+            principal: principalPaid.toFixed(2),
             balance: balance.toFixed(2),
-            interest: interest.toFixed(2),
-            toInterest: interestPaid.toFixed(2),
-            toPrincipal: principalPaid.toFixed(2),
-            extra: reducedPrincipal.toFixed(2),
-            interestSaved: reducedInterest.toFixed(2),
-            reducedBalance: reducedBalance.toFixed(2),
-            invested: sumExtraPayment.toFixed(2),
-            savings: sumSavings.toFixed(2),
-            payoff: savingsAtPayoff.toFixed(2),
-            savingsProfit: savingsProfit.toFixed(2),
-            payoffProfit: payoffProfit.toFixed(2),
-            diff: (payoffProfit - savingsProfit).toFixed(2),
+            // Pre Payment
+            ppCost: 0,
+            ppInterest: reducedInterest.toFixed(2),
+            ppPrincipal: reducedPrincipal.toFixed(2),  
+            ppBalance: reducedBalance.toFixed(2),
+            ppSavings: ppSavings.toFixed(2),
+            ppProfit: ppProfit.toFixed(2),
+            // High Yield Interest
+            hySavings: hySavings.toFixed(2),
+            hyProfit: hyProfit.toFixed(2),
         })
 
         pastBalance = balance;
