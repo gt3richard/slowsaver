@@ -2,11 +2,12 @@
   import Input from './lib/Input.svelte';
   import Grid from './lib/Grid.svelte';
 
-  import { loanAmount, loanTerm, interestRate, extraPayment } from './lib/stores';
+  import { loanAmount, loanTerm, mortgageAPY, prePayment, savingsAPY } from './lib/stores';
   loanAmount.set(500000);
   loanTerm.set(360);
-  interestRate.set(0.03);
-  extraPayment.set(4000);
+  mortgageAPY.set(0.03);
+  prePayment.set(4000);
+  savingsAPY.set(0.01);
 
 </script>
 

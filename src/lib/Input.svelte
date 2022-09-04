@@ -1,23 +1,23 @@
 <script>
-    import { loanAmount, loanTerm, interestRate, extraPayment } from './stores';
+    import { loanAmount, loanTerm, mortgageAPY, prePayment } from './stores';
 </script>
 
 <table>
     <tr>
         <td><span>Loan Amount:</span></td>
-        <td><input bind:value={$loanAmount} ></td>
+        <td><input type=number bind:value={$loanAmount} ></td>
     </tr>
     <tr>
         <td><span>Loan Term:</span></td>
-        <td><input bind:value={$loanTerm}></td>
+        <td><input type=number bind:value={$loanTerm}></td>
     </tr>
     <tr>
         <td><span>Interest Rate:</span></td>
-        <td><input bind:value={$interestRate}></td>
+        <td><input type=number bind:value={$mortgageAPY}></td>
     </tr>
     <tr>
-        <td><span>Extra Payment:</span></td>
-        <td><input bind:value={$extraPayment}></td>
+        <td><span>Pre Payment:</span></td>
+        <td><input type=number bind:value={$prePayment}></td>
     </tr>
 </table>
 

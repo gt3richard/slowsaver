@@ -1,10 +1,17 @@
 import { calculateMonthlyPayments, calculateRemainingBalance } from './calculations';
 
-export function calculateMonthlySchedule(principal, term, rate, extra) {
+/**
+ * @param {number} principal
+ * @param {number} term
+ * @param {number} mortgageAPY
+ * @param {number} prePayment
+ * @param {number} savingsAPY
+ */
+export function calculateMonthlySchedule(principal, term, mortgageAPY, prePayment, savingsAPY) {
     // Static numbers
-    const hyInterestRate = (.01 / 12);
-    const monthlyRate = (rate / 12);
-    const monthlyPayment = calculateMonthlyPayments(principal, rate, term);
+    const hyInterestRate = (savingsAPY / 12);
+    const monthlyRate = (mortgageAPY / 12);
+    const monthlyPayment = calculateMonthlyPayments(principal, mortgageAPY, term);
     const finalCost = monthlyPayment * term;
     
     // Iteration
@@ -19,8 +26,8 @@ export function calculateMonthlySchedule(principal, term, rate, extra) {
     
     for (let month = 1; month <= term; month++) {
         // Loan status
-        let balance = calculateRemainingBalance(principal, rate, month, monthlyPayment)
-        let ppBalance = calculateRemainingBalance(principal, rate, month, monthlyPayment + extra)
+        let balance = calculateRemainingBalance(principal, mortgageAPY, month, monthlyPayment)
+        let ppBalance = calculateRemainingBalance(principal, mortgageAPY, month, monthlyPayment + prePayment)
         let paidOff = !pastReducedBalance;
         let ppPaymentNeeded = !!ppBalance;
 
@@ -30,17 +37,20 @@ export function calculateMonthlySchedule(principal, term, rate, extra) {
         let principalPaid = pastBalance - balance;
 
         // Early Payoff
-        sumExtraPayment += ppPaymentNeeded ? parseFloat(extra) : pastReducedBalance;
+        sumExtraPayment += ppPaymentNeeded ? prePayment : pastReducedBalance;
         let ppInterest = pastReducedBalance * monthlyRate;
-        let ppPrincipal = ppPaymentNeeded ? monthlyPayment - ppInterest + parseFloat(extra) : pastReducedBalance;
+        let ppPrincipal = ppPaymentNeeded ? monthlyPayment - ppInterest + prePayment : pastReducedBalance;
         sumInterestSaved += !paidOff ? (interestPaid - ppInterest): 0;
         let ppSavings = (!paidOff ? sumInterestSaved : 0);
         let ppProfit = (!paidOff ? sumExtraPayment : 0)  + ppSavings;
 
         // Savings
-        sumSavings = (ppPaymentNeeded ? parseFloat(extra) : 0) + (sumSavings * (1 + hyInterestRate));
+        sumSavings = (ppPaymentNeeded ? prePayment : 0) + (sumSavings * (1 + hyInterestRate));
         let hySavings = !paidOff ? sumSavings + ((hyInterestRate * (term - month)) * sumSavings) : 0;
         let hyProfit = hySavings - ppSavings;
+
+        // Analysis
+        let analysis = (hyProfit - ppProfit)/sumExtraPayment * 100;
 
         pastBalance = balance;
         pastReducedBalance = ppBalance;
@@ -64,7 +74,7 @@ export function calculateMonthlySchedule(principal, term, rate, extra) {
             hySavings: hySavings.toFixed(2),
             hyProfit: hyProfit.toFixed(2),
             // Analysis
-            analysis: ((hyProfit - ppProfit)/sumExtraPayment * 100).toFixed(2),
+            analysis: analysis.toFixed(2),
         })
     }
     return schedule;
