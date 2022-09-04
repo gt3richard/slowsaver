@@ -19,6 +19,10 @@ import { amortizationSchedule, interestRate } from './stores';
         <th>Interest Saved</th>
         <th>Invested</th>
         <th>Savings</th>
+        <th>Savings at Payoff</th>
+        <th>Savings Profit</th>
+        <th>Payoff Profit</th>
+        <th>Diff</th>
     </tr>
     {#each $amortizationSchedule as {
         month,
@@ -33,6 +37,10 @@ import { amortizationSchedule, interestRate } from './stores';
         interestSaved,
         invested,
         savings,
+        payoff,
+        savingsProfit,
+        payoffProfit,
+        diff,
         }}
     <tr>
         <td>{month}</td>
@@ -47,6 +55,10 @@ import { amortizationSchedule, interestRate } from './stores';
         <td>{interestSaved}</td>
         <td>{invested}</td>
         <td>{savings}</td>
+        <td>{payoff}</td>
+        <td>{savingsProfit}</td>
+        <td>{payoffProfit}</td>
+        <td>{diff}</td>
     </tr>
     {/each}
 </table>
