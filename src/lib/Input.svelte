@@ -1,30 +1,28 @@
 <script>
-    import { loanAmount, loanTerm, mortgageAPY, prePayment } from './stores';
+    import { loanAmount, loanTerm, mortgageAPY, prePayment, monthlyPayment } from './stores';
 </script>
 
-<table>
-    <tr>
-        <td><span>Loan Amount:</span></td>
-        <td><input type=number bind:value={$loanAmount} ></td>
-    </tr>
-    <tr>
-        <td><span>Loan Term:</span></td>
-        <td><input type=number bind:value={$loanTerm}></td>
-    </tr>
-    <tr>
-        <td><span>Interest Rate:</span></td>
-        <td><input type=number bind:value={$mortgageAPY}></td>
-    </tr>
-    <tr>
-        <td><span>Pre Payment:</span></td>
-        <td><input type=number bind:value={$prePayment}></td>
-    </tr>
-</table>
-
+<p>
+    For a $<input type=number bind:value={$loanAmount} > mortgage 
+    at <input type=number bind:value={$mortgageAPY}>% for <input type=number bind:value={$loanTerm}> months. 
+    I want to add an additional payment of $<input type=number bind:value={$prePayment}> each 
+    month for a total monthly payment of ${$monthlyPayment.toFixed(2)}
+</p>
 
 <style>
-table {
+p {
+    font-size: 1.5em;
+    padding: 1.5em;
     margin: auto;
-    padding: 1em;
+}
+input {
+    border: none;
+    background: transparent;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    font-size: 1em;
+    width:10%;
+    text-align: center;
+    font-weight: bold;
 }
 </style>

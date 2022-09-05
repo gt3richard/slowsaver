@@ -5,8 +5,8 @@
   import { loanAmount, loanTerm, mortgageAPY, prePayment, savingsAPY } from './lib/stores';
   loanAmount.set(500000);
   loanTerm.set(360);
-  mortgageAPY.set(0.03);
-  prePayment.set(4000);
+  mortgageAPY.set(3);
+  prePayment.set(100);
   savingsAPY.set(0.01);
 
 </script>
@@ -21,14 +21,6 @@
   <div class="card">
     <Grid />
   </div>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
 </main>
 
 <style>
