@@ -1,6 +1,6 @@
 <script>
 
-import { amortizationSchedule } from './stores';
+import { amortizationSchedule } from '../stores';
 
 </script>
 

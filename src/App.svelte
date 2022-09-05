@@ -1,29 +1,22 @@
 <script>
-  import Input from './lib/Input.svelte';
-  import Grid from './lib/Grid.svelte';
-
-  import { loanAmount, loanTerm, mortgageAPY, prePayment, savingsAPY } from './lib/stores';
-  loanAmount.set(500000);
-  loanTerm.set(360);
-  mortgageAPY.set(3);
-  prePayment.set(100);
-  savingsAPY.set(0.01);
-
+  import Breakdown from './lib/Breakdown/Index.svelte';
 </script>
 
 <main>
-  <h1>Slow Saver</h1>
-  
-  <div class="card">
-    <Input />
-  </div>
-
-  <div class="card">
-    <Grid />
-  </div>
+  <h1 class="header">Slow Saver</h1>
+  <h4 class="subheader secondary-color">It'll take time but it'll be worth it</h4>
+  <Breakdown />
+  <span class="footer secondary-color">Slow Saver | It'll take time but it'll be worth it</span>
 </main>
 
 <style>
+  .header {
+    font-weight: 700;
+    padding-top: 1em;
+  }
+  .subheader {
+    padding-bottom: 1em;
+  }
   .logo {
     height: 6em;
     padding: 1.5em;

@@ -1,7 +1,10 @@
 import { writable, derived } from 'svelte/store';
 
-import { calculateMonthlySchedule } from './service';
-import { calculateMonthlyPayments } from './calculations';
+import { calculateMonthlySchedule } from './Amortization/service';
+import { calculateMonthlyPayments } from './Amortization/calculations';
+
+export const income = writable();
+export const cash = writable();
 
 export const loanAmount = writable(0);
 export const loanTerm = writable(0);
