@@ -70,17 +70,17 @@
     </div>
     <div class="row {$breakdown.activeStage >= 3 ? "" : "dim"}">
         <Section name={Content.PersonalLoan.name}/>
-        <Loans loans={$personalLoans} />
+        <Loans loans={$personalLoans} actions={$breakdown.personalLoanAction} />
         <Action description={"Pay it off"} />
     </div>
     <div class="row {$breakdown.activeStage >= 3 ? "" : "dim"}">
         <Section name={Content.AutoLoan.name}/>
-        <Loans loans={$autoLoans} />
+        <Loans loans={$autoLoans} actions={$breakdown.autoLoanAction}/>
         <Action description={"Pay it off"} />
     </div>
     <div class="row {$breakdown.activeStage >= 3 ? "" : "dim"}">
         <Section name={Content.StudentLoan.name}/>
-        <Loans loans={$studentLoans} />
+        <Loans loans={$studentLoans} actions={$breakdown.studentLoanAction} />
         <Action description={"Pay it off"} />
     </div>
     <div class="row {$breakdown.activeStage >= 4 ? "" : "dim"}">
@@ -88,7 +88,7 @@
     </div>
     <div class="row {$breakdown.activeStage >= 4 ? "" : "dim"}">
         <Section name={Content.Mortgage.name}/>
-        <Loans loans={$mortgageLoans} />
+        <Loans loans={$mortgageLoans} actions={$breakdown.mortgageLoanAction}  />
         <Action description={"Pay it off"} />
     </div>
     <div class="row {$breakdown.activeStage >= 4 ? "" : "dim"}">

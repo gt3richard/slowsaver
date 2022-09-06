@@ -7,7 +7,7 @@
 
 <div class="col-6 m-auto">
     {#each loans as { name, payment, amount, value}, index}
-    <Progress amount={amount} value={actions ? actions[index].value : value} isDebt={actions && actions[index].action === "Payoff" ? false : true} name={name} payment={actions ? actions[index].action : payment} />
+    <Progress amount={amount} value={actions && actions.length > 0 ? actions[index].value : value} isDebt={actions && actions.length > 0 && actions[index].action === "Payoff" ? false : true} name={name} payment={actions && actions.length > 0 ? actions[index].action : payment} />
     {/each}
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle secondary-color" viewBox="0 0 16 16">
         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
