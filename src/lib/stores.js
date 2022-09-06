@@ -33,6 +33,9 @@ export const autoLoans = writable([]);
 export const studentLoans = writable([]);
 export const mortgageLoans = writable([]);
 
+export const inputActive = writable("");
+export const deleteActive = writable("");
+
 function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans, studentLoans, mortgageLoans) {
     let paycheck = parseFloat((income / 12 * .5).toFixed(2));
     let funds = cash;

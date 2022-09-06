@@ -53,7 +53,7 @@
     </div>
     <div class="row {isActive(1) ? "" : "dim"}">
         <Section name={Content.CreditCard.name}/>
-        <Loans loans={$creditCards} actions={$breakdown.creditCard} readonly={!isActive(1)} />
+        <Loans loans={$creditCards} actions={$breakdown.creditCard} readonly={!isActive(1)} type={"cc"} />
         <Action description={$breakdown.creditCardAction} />
     </div>
     <div class="row {isActive(2) ? "" : "dim"}">
@@ -74,17 +74,17 @@
     </div>
     <div class="row {isActive(3) ? "" : "dim"}">
         <Section name={Content.PersonalLoan.name}/>
-        <Loans loans={$personalLoans} actions={$breakdown.personalLoan} readonly={!isActive(3)} />
+        <Loans loans={$personalLoans} actions={$breakdown.personalLoan} readonly={!isActive(3)} type={"pl"} />
         <Action description={$breakdown.personalLoanAction} />
     </div>
     <div class="row {isActive(3) ? "" : "dim"}">
         <Section name={Content.AutoLoan.name}/>
-        <Loans loans={$autoLoans} actions={$breakdown.autoLoan} readonly={!isActive(3)}/>
+        <Loans loans={$autoLoans} actions={$breakdown.autoLoan} readonly={!isActive(3)} type={"al"}/>
         <Action description={$breakdown.autoLoanAction} />
     </div>
     <div class="row {isActive(3) ? "" : "dim"}">
         <Section name={Content.StudentLoan.name}/>
-        <Loans loans={$studentLoans} actions={$breakdown.studentLoan} readonly={!isActive(3)} />
+        <Loans loans={$studentLoans} actions={$breakdown.studentLoan} readonly={!isActive(3)} type={"sl"} />
         <Action description={$breakdown.studentLoanAction} />
     </div>
     <div class="row {isActive(4) ? "" : "dim"}">
@@ -92,7 +92,7 @@
     </div>
     <div class="row {isActive(4) ? "" : "dim"}">
         <Section name={Content.Mortgage.name}/>
-        <Loans loans={$mortgageLoans} actions={$breakdown.mortgageLoan} readonly={!isActive(4)}  />
+        <Loans loans={$mortgageLoans} actions={$breakdown.mortgageLoan} readonly={!isActive(4)} type={"ml"}  />
         <Action description={$breakdown.mortgageLoanAction} />
     </div>
     <div class="row {isActive(4) ? "" : "dim"}">
