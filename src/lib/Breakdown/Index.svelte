@@ -19,16 +19,16 @@
     ]);
 
     personalLoans.set([
-        { name: "Line of Credit", payment: "Minimum", amount: 70, value: 100 },
+        { name: "Line of Credit", payment: "Minimum", amount: 3000, value: 100 },
     ]);
 
     autoLoans.set([
-        { name: "Mercedes", payment: "Minimum", amount: 50, value: 100 },
-        { name: "Porsche", payment: "Minimum", amount: 30, value: 100 },
+        { name: "Mercedes", payment: "Minimum", amount: 10000, value: 100 },
+        { name: "Porsche", payment: "Minimum", amount: 30000, value: 100 },
     ]);
 
     studentLoans.set([
-        { name: "University of School", payment: "Minimum", amount: 90, value: 100 },
+        { name: "University of School", payment: "Minimum", amount: 20000, value: 100 },
     ]);
 
     mortgageLoans.set([
@@ -49,8 +49,8 @@
     </div>
     <div class="row {$breakdown.activeStage >= 1 ? "" : "dim"}">
         <Section name={Content.CreditCard.name}/>
-        <Loans loans={$creditCards} actions={$breakdown.creditCardAction} />
-        <Action description={"Pay it off"} />
+        <Loans loans={$creditCards} actions={$breakdown.creditCard} />
+        <Action description={$breakdown.creditCardAction} />
     </div>
     <div class="row {$breakdown.activeStage >= 2 ? "" : "dim"}">
         <Stage number={2} />
@@ -62,39 +62,39 @@
     </div>
     <div class="row {$breakdown.activeStage >= 2 ? "" : "dim"}">
         <Section name={Content.Retirement.name}/>
-        <Investments accounts={Content.Retirement.Account} />
-        <Action description={"Pay it off"} />
+        <Investments accounts={Content.Retirement.Account} actions={$breakdown.retirementFund} />
+        <Action description={$breakdown.retirementFundAction} />
     </div>
     <div class="row {$breakdown.activeStage >= 3 ? "" : "dim"}">
         <Stage number={3} />
     </div>
     <div class="row {$breakdown.activeStage >= 3 ? "" : "dim"}">
         <Section name={Content.PersonalLoan.name}/>
-        <Loans loans={$personalLoans} actions={$breakdown.personalLoanAction} />
-        <Action description={"Pay it off"} />
+        <Loans loans={$personalLoans} actions={$breakdown.personalLoan} />
+        <Action description={$breakdown.personalLoanAction} />
     </div>
     <div class="row {$breakdown.activeStage >= 3 ? "" : "dim"}">
         <Section name={Content.AutoLoan.name}/>
-        <Loans loans={$autoLoans} actions={$breakdown.autoLoanAction}/>
-        <Action description={"Pay it off"} />
+        <Loans loans={$autoLoans} actions={$breakdown.autoLoan}/>
+        <Action description={$breakdown.autoLoanAction} />
     </div>
     <div class="row {$breakdown.activeStage >= 3 ? "" : "dim"}">
         <Section name={Content.StudentLoan.name}/>
-        <Loans loans={$studentLoans} actions={$breakdown.studentLoanAction} />
-        <Action description={"Pay it off"} />
+        <Loans loans={$studentLoans} actions={$breakdown.studentLoan} />
+        <Action description={$breakdown.studentLoanAction} />
     </div>
     <div class="row {$breakdown.activeStage >= 4 ? "" : "dim"}">
         <Stage number={4} />
     </div>
     <div class="row {$breakdown.activeStage >= 4 ? "" : "dim"}">
         <Section name={Content.Mortgage.name}/>
-        <Loans loans={$mortgageLoans} actions={$breakdown.mortgageLoanAction}  />
-        <Action description={"Pay it off"} />
+        <Loans loans={$mortgageLoans} actions={$breakdown.mortgageLoan}  />
+        <Action description={$breakdown.mortgageLoanAction} />
     </div>
     <div class="row {$breakdown.activeStage >= 4 ? "" : "dim"}">
         <Section name={Content.Investment.name}/>
-        <Investments accounts={Content.Investment.Account} />
-        <Action description={"Pay it off"} />
+        <Investments accounts={Content.Investment.Account} actions={$breakdown.investment} />
+        <Action description={$breakdown.investmentAction} />
     </div>
 </div>
 

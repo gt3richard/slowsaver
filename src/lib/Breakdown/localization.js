@@ -18,9 +18,7 @@ export const Content = {
         description: "",
         percentage: .15,
         Account: [
-            { name: "401k up to company match" },
-            { name: "Roth IRA" },
-            { name: "Traditional IRA" }
+            { name: "401k / IRA" },
         ]
     },
     PersonalLoan: {

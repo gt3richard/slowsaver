@@ -35,14 +35,15 @@ export const mortgageLoans = writable([]);
 
 function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans, studentLoans, mortgageLoans) {
     let funds = cash;
-    let monthlyFunds = 0;
+    let monthlyFunds = income / 12 * .5;
     let activeStage = 1;
     let snowballing = true;
 
     //// STAGE 1
     let emergencyFund = 0;
     let emergencyFundAction = "";
-    let creditCardAction = [];
+    let creditCard = [];
+    let creditCardAction = "";
 
     // Emergency Funds
     if(funds - Content.EmergencyFund.amount > 0) {
@@ -59,13 +60,21 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
     for(let i = 0; i < creditCards.length; i++) {
         if(funds - creditCards[i].amount > 0) {
             funds = funds - creditCards[i].amount;
-            creditCardAction.push({ action: "Payoff", value: creditCards[i].amount })
+            creditCard.push({ action: "Payoff", value: creditCards[i].amount })
+            creditCardAction += `${creditCardAction.length > 0 ? 'Then use' : 'Use'} cash to payoff ${creditCards[i].name}.`
         } else {
             if(snowballing) {
-                creditCardAction.push({ action: "500", value: 500 });
-                snowballing = false;
+                if(monthlyFunds - creditCards[i].amount > 0) {
+                    monthlyFunds = monthlyFunds - creditCards[i].amount;
+                    creditCard.push({ action: "Payoff", value: creditCards[i].amount })
+                    creditCardAction += `${creditCardAction.length > 0 ? 'Then use' : 'Use'} paycheck to payoff ${creditCards[i].name}`
+                } else {
+                    creditCard.push({ action: monthlyFunds, value: monthlyFunds });
+                    monthlyFunds = 0;
+                    snowballing = false;
+                }
             } else {
-                creditCardAction.push({ action: "Minimum", value: creditCards[i].amount * .1 })
+                creditCard.push({ action: "Minimum", value: creditCards[i].amount * .1 })
             }
         }
     }
@@ -73,6 +82,8 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
     //// STAGE 2
     let savingsFund = 0;
     let savingsFundAction = "";
+    let retirementFund = [];
+    let retirementFundAction = "";
 
     if(funds + monthlyFunds > 0) {
         activeStage = 2;
@@ -89,11 +100,19 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
         savingsFundAction = `Put $${savingsFund} into a high yield savings account.`;
     }
 
+    // Retirement
+    if(monthlyFunds > 0) {
+        retirementFund.push({ value: income / 12 * Content.Retirement.percentage });
+        retirementFundAction = `Contribute ${Content.Retirement.percentage * 100}% of you annual income.`
+    }
 
     //// STAGE 3
-    let personalLoanAction = [];
-    let autoLoanAction = [];
-    let studentLoanAction = [];
+    let personalLoan = [];
+    let personalLoanAction = "";
+    let autoLoan = [];
+    let autoLoanAction = "";
+    let studentLoan = [];
+    let studentLoanAction = "";
 
     if(funds + monthlyFunds > 0) {
         activeStage = 3;
@@ -103,13 +122,19 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
     for(let i = 0; i < personalLoans.length; i++) {
         if(funds - personalLoans[i].amount > 0) {
             funds = funds - personalLoans[i].amount;
-            personalLoanAction.push({ action: "Payoff", value: personalLoans[i].amount })
+            personalLoan.push({ action: "Payoff", value: personalLoans[i].amount })
         } else {
             if(snowballing) {
-                personalLoanAction.push({ action: "500", value: 500 });
-                snowballing = false;
+                if(monthlyFunds - personalLoans[i].amount > 0) {
+                    monthlyFunds = monthlyFunds - personalLoans[i].amount;
+                    personalLoan.push({ action: "Payoff", value: personalLoans[i].amount })
+                } else {
+                    personalLoan.push({ action: monthlyFunds, value: monthlyFunds });
+                    monthlyFunds = 0;
+                    snowballing = false;
+                }
             } else {
-                personalLoanAction.push({ action: "Minimum", value: personalLoans[i].amount * .1 })
+                personalLoan.push({ action: "Minimum", value: personalLoans[i].amount * .1 })
             }
         }
     }
@@ -118,13 +143,19 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
     for(let i = 0; i < autoLoans.length; i++) {
         if(funds - autoLoans[i].amount > 0) {
             funds = funds - autoLoans[i].amount;
-            autoLoanAction.push({ action: "Payoff", value: autoLoans[i].amount })
+            autoLoan.push({ action: "Payoff", value: autoLoans[i].amount })
         } else {
             if(snowballing) {
-                autoLoanAction.push({ action: "500", value: 500 });
-                snowballing = false;
+                if(monthlyFunds - autoLoans[i].amount > 0) {
+                    monthlyFunds = monthlyFunds - autoLoans[i].amount;
+                    autoLoan.push({ action: "Payoff", value: autoLoans[i].amount })
+                } else {
+                    autoLoan.push({ action: monthlyFunds, value: monthlyFunds });
+                    monthlyFunds = 0;
+                    snowballing = false;
+                }
             } else {
-                autoLoanAction.push({ action: "Minimum", value: autoLoans[i].amount * .1 })
+                autoLoan.push({ action: "Minimum", value: autoLoans[i].amount * .1 })
             }
         }
     }
@@ -133,19 +164,28 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
     for(let i = 0; i < studentLoans.length; i++) {
         if(funds - studentLoans[i].amount > 0) {
             funds = funds - studentLoans[i].amount;
-            studentLoanAction.push({ action: "Payoff", value: studentLoans[i].amount })
+            studentLoan.push({ action: "Payoff", value: studentLoans[i].amount })
         } else {
             if(snowballing) {
-                studentLoanAction.push({ action: "500", value: 500 });
-                snowballing = false;
+                if(monthlyFunds - studentLoans[i].amount > 0) {
+                    monthlyFunds = monthlyFunds - studentLoans[i].amount;
+                    studentLoan.push({ action: "Payoff", value: studentLoans[i].amount })
+                } else {
+                    studentLoan.push({ action: monthlyFunds, value: monthlyFunds });
+                    monthlyFunds = 0;
+                    snowballing = false;
+                }
             } else {
-                studentLoanAction.push({ action: "Minimum", value: studentLoans[i].amount * .1 })
+                studentLoan.push({ action: "Minimum", value: studentLoans[i].amount * .1 })
             }
         }
     }
 
     //// STAGE 4
-    let mortgageLoanAction = [];
+    let mortgageLoan = [];
+    let mortgageLoanAction = "";
+    let investment = [];
+    let investmentAction = "";
 
     if(funds + monthlyFunds > 0) {
         activeStage = 4;
@@ -155,17 +195,30 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
     for(let i = 0; i < mortgageLoans.length; i++) {
         if(funds - mortgageLoans[i].amount > 0) {
             funds = funds - mortgageLoans[i].amount;
-            mortgageLoanAction.push({ action: "Payoff", value: mortgageLoans[i].amount })
+            mortgageLoan.push({ action: "Payoff", value: mortgageLoans[i].amount })
         } else {
             if(snowballing) {
-                mortgageLoanAction.push({ action: "500", value: 500 });
-                snowballing = false;
+                if(monthlyFunds - mortgageLoans[i].amount > 0) {
+                    monthlyFunds = monthlyFunds - mortgageLoans[i].amount;
+                    mortgageLoan.push({ action: "Payoff", value: mortgageLoans[i].amount })
+                } else {
+                    mortgageLoan.push({ action: monthlyFunds, value: monthlyFunds });
+                    monthlyFunds = 0;
+                    snowballing = false;
+                }
             } else {
-                mortgageLoanAction.push({ action: "Minimum", value: mortgageLoans[i].amount * .1 })
+                mortgageLoan.push({ action: "Minimum", value: mortgageLoans[i].amount * .1 })
             }
         }
     }
 
+    // Investment
+    if(monthlyFunds > 0) {
+        for(let i = 0; i < Content.Investment.Account.length; i++) {
+            investment.push({ value: monthlyFunds * Content.Investment.Account[i].percentage})
+        }
+        investmentAction = "Keep investing a portion of your remaining income accordingly."
+    }
 
     return { 
         activeStage,
@@ -173,11 +226,20 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
         emergencyFundAction,
         savingsFund,
         savingsFundAction,
+        retirementFund,
+        retirementFundAction,
+        creditCard,
         creditCardAction,
+        personalLoan,
         personalLoanAction,
+        autoLoan,
         autoLoanAction,
+        studentLoan,
         studentLoanAction,
-        mortgageLoanAction
+        mortgageLoan,
+        mortgageLoanAction,
+        investment,
+        investmentAction
     };
 }
 
