@@ -9,7 +9,7 @@
     {#if percentage}
     <div class="col-3 my-auto"><h4>{percentage * 100}%</h4></div>
     {/if}
-    <div class="col-3"><h4>$<span class="amount">{amount}</span></h4><span class="secondary-color">per month</span></div>
+    <div class="col-3"><h4>$<span class="amount">{amount.toLocaleString()}</span></h4><span class="secondary-color">per month</span></div>
 </div>
 
 <style>

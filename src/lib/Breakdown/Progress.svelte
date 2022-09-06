@@ -21,7 +21,7 @@
     <div class={name ? payment ? "col-6" : "col-9" : "col"}>
         <div class="row">
             <div class="col left">$0</div>
-            <div class="col right">${amount}</div>
+            <div class="col right">${amount.toLocaleString()}</div>
         </div>
         <div class="row">
             <div class="bar">
@@ -32,7 +32,7 @@
         </div>
     </div>
     {#if payment}
-        <div class="col-3"><h4>$<span class="payment">{payment}</span></h4><span class="secondary-color">per month</span></div>
+        <div class="col-3"><h4>$<span class="payment">{payment.toLocaleString()}</span></h4><span class="secondary-color">per month</span></div>
     {/if}
 </div>
 
