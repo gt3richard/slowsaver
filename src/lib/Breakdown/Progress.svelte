@@ -7,7 +7,27 @@
     export let type = "";
     export let index = null;
 
-    import { deleteActive } from "../stores";
+    import { deleteActive, creditCards, studentLoans, autoLoans, personalLoans, mortgageLoans } from "../stores";
+
+    function deleteLoan(type, index) {
+        if(type === "cc") {
+            $creditCards.splice(index, 1);
+            creditCards.set($creditCards);
+        } else if (type === "pl") {
+            $personalLoans.splice(index, 1);
+            personalLoans.set($personalLoans);
+        } else if (type === "al") {
+            $autoLoans.splice(index, 1);
+            autoLoans.set($autoLoans);
+        } else if (type === "sl") {
+            $studentLoans.splice(index, 1);
+            studentLoans.set($studentLoans);
+        } else if (type === "ml") {
+            $mortgageLoans.splice(index, 1);
+            mortgageLoans.set($mortgageLoans);
+        }
+        $deleteActive = ""
+    }
 </script>
 
 <div class="row my-3">
@@ -31,7 +51,7 @@
     </div>
     {#if payment}
         {#if $deleteActive === type + "-" + index}
-            <button type="button" class="col-3 m-auto btn btn-danger" on:click={() => $deleteActive = ""}>Delete</button>
+            <button type="button" class="col-3 m-auto btn btn-danger" on:click={() => deleteLoan(type, index)}>Delete</button>
         {:else}
             <div class="col-3"><h4>$<span class="payment">{payment.toLocaleString()}</span></h4><span class="secondary-color">per month</span></div>
         {/if}
