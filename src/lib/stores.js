@@ -77,38 +77,41 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
     }
 
     // Credit Card
-    for(let i = 0; i < creditCards.length; i++) {
-        if(funds - creditCards[i].amount >= 0) {
-            funds = funds - creditCards[i].amount;
-            creditCard.push({ action: "Payoff", value: creditCards[i].amount })
-            creditCardAction += `${creditCardAction ? 'Then use' : 'Use'} cash to payoff ${creditCards[i].name}.`
+    let lines = creditCards;
+    let actions = [];
+    let actionText = "";
+    for(let i = 0; i < lines.length; i++) {
+        if(funds - lines[i].amount >= 0) {
+            funds = funds - lines[i].amount;
+            actions.push({ action: "Payoff", value: lines[i].amount })
+            actionText += `${actionText ? 'Then use' : 'Use'} cash to payoff ${lines[i].name}.`
         } else {
             if(snowballing && monthlyFunds) {
-                if(monthlyFunds - creditCards[i].amount > 0) {
-                    monthlyFunds = monthlyFunds - creditCards[i].amount;
-                    creditCard.push({ action: "Payoff", value: creditCards[i].amount })
-                    creditCardAction += `${creditCardAction ? 'Then use' : 'Use'} paycheck to payoff ${creditCards[i].name}`
+                if(monthlyFunds - lines[i].amount > 0) {
+                    monthlyFunds = monthlyFunds - lines[i].amount;
+                    actions.push({ action: "Payoff", value: lines[i].amount })
+                    actionText += `${actionText ? 'Then use' : 'Use'} paycheck to payoff ${lines[i].name}`
                 } else {
-                    let balance = creditCards[i].amount;
+                    let balance = lines[i].amount;
                     let payment = 0;
                     if(funds) {
                         balance = balance - funds;
-                        creditCardAction += `Use $${funds} to pay down.`
+                        actionText += `Use $${funds} to pay down.`
                         payment = funds;
                         funds = 0;
                     }
 
                     let months = Math.ceil(balance / (paycheck));
                     if(monthlyFunds - balance > 0) {
-                        creditCard.push({ action: balance, value: balance + payment });
+                        actions.push({ action: balance, value: balance + payment });
                         monthlyFunds = monthlyFunds - balance;
-                        creditCardAction += `Then payoff with $${balance} from your paycheck.`
+                        actionText += `Then payoff with $${balance} from your paycheck.`
                     } else {
-                        creditCard.push({ action: monthlyFunds, value: monthlyFunds + payment });
+                        actions.push({ action: monthlyFunds, value: monthlyFunds + payment });
                         if(monthlyFunds !== paycheck) {
-                            creditCardAction += `Pay $${monthlyFunds} this month, then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Pay $${monthlyFunds} this month, then pay $${paycheck} each month for ${months} months.`
                         } else {
-                            creditCardAction += `Then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Then pay $${paycheck} each month for ${months} months.`
                         }
                         snowballing = false;
                         monthlyFunds = 0;
@@ -116,10 +119,12 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
                     payments += months;
                 }
             } else {
-                creditCard.push({ action: "Minimum", value: creditCards[i].amount * .1 })
+                actions.push({ action: "Minimum", value: lines[i].amount * .1 })
             }
         }
     }
+    creditCard = actions;
+    creditCardAction = actionText;
 
     //// STAGE 2
     let savingsFund = 0;
@@ -171,38 +176,41 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
     }
 
     // Personal Loan
-    for(let i = 0; i < personalLoans.length; i++) {
-        if(funds - personalLoans[i].amount >= 0) {
-            funds = funds - personalLoans[i].amount;
-            personalLoan.push({ action: "Payoff", value: personalLoans[i].amount })
-            personalLoanAction += `${personalLoanAction ? 'Then use' : 'Use'} cash to payoff ${personalLoans[i].name}.`
+    lines = personalLoans;
+    actions = [];
+    actionText = "";
+    for(let i = 0; i < lines.length; i++) {
+        if(funds - lines[i].amount >= 0) {
+            funds = funds - lines[i].amount;
+            actions.push({ action: "Payoff", value: lines[i].amount })
+            actionText += `${actionText ? 'Then use' : 'Use'} cash to payoff ${lines[i].name}.`
         } else {
             if(snowballing && monthlyFunds) {
-                if(monthlyFunds - personalLoans[i].amount > 0) {
-                    monthlyFunds = monthlyFunds - personalLoans[i].amount;
-                    personalLoan.push({ action: "Payoff", value: personalLoans[i].amount })
-                    personalLoanAction += `${personalLoanAction ? 'Then use' : 'Use'} cash to payoff ${personalLoans[i].name}.`
+                if(monthlyFunds - lines[i].amount > 0) {
+                    monthlyFunds = monthlyFunds - lines[i].amount;
+                    actions.push({ action: "Payoff", value: lines[i].amount })
+                    actionText += `${actionText ? 'Then use' : 'Use'} paycheck to payoff ${lines[i].name}`
                 } else {
-                    let balance = personalLoans[i].amount;
+                    let balance = lines[i].amount;
                     let payment = 0;
                     if(funds) {
                         balance = balance - funds;
-                        personalLoanAction += `Use $${funds} to pay down.`
+                        actionText += `Use $${funds} to pay down.`
                         payment = funds;
                         funds = 0;
                     }
 
                     let months = Math.ceil(balance / (paycheck));
                     if(monthlyFunds - balance > 0) {
-                        personalLoan.push({ action: balance, value: balance + payment });
+                        actions.push({ action: balance, value: balance + payment });
                         monthlyFunds = monthlyFunds - balance;
-                        personalLoanAction += `Then payoff with $${balance} from your paycheck.`
+                        actionText += `Then payoff with $${balance} from your paycheck.`
                     } else {
-                        personalLoan.push({ action: monthlyFunds, value: monthlyFunds + payment });
+                        actions.push({ action: monthlyFunds, value: monthlyFunds + payment });
                         if(monthlyFunds !== paycheck) {
-                            personalLoanAction += `Pay $${monthlyFunds} this month, then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Pay $${monthlyFunds} this month, then pay $${paycheck} each month for ${months} months.`
                         } else {
-                            personalLoanAction += `Then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Then pay $${paycheck} each month for ${months} months.`
                         }
                         snowballing = false;
                         monthlyFunds = 0;
@@ -210,44 +218,49 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
                     payments += months;
                 }
             } else {
-                personalLoan.push({ action: "Minimum", value: personalLoans[i].amount * .1 })
+                actions.push({ action: "Minimum", value: lines[i].amount * .1 })
             }
         }
     }
+    personalLoan = actions;
+    personalLoanAction = actionText;
 
     // Auto Loan
-    for(let i = 0; i < autoLoans.length; i++) {
-        if(funds - autoLoans[i].amount >= 0) {
-            funds = funds - autoLoans[i].amount;
-            autoLoan.push({ action: "Payoff", value: autoLoans[i].amount })
-            autoLoanAction += `${autoLoanAction ? 'Then use' : 'Use'} cash to payoff ${autoLoans[i].name}.`
+    lines = autoLoans;
+    actions = [];
+    actionText = "";
+    for(let i = 0; i < lines.length; i++) {
+        if(funds - lines[i].amount >= 0) {
+            funds = funds - lines[i].amount;
+            actions.push({ action: "Payoff", value: lines[i].amount })
+            actionText += `${actionText ? 'Then use' : 'Use'} cash to payoff ${lines[i].name}.`
         } else {
             if(snowballing && monthlyFunds) {
-                if(monthlyFunds - autoLoans[i].amount >= 0) {
-                    monthlyFunds = monthlyFunds - autoLoans[i].amount;
-                    autoLoan.push({ action: "Payoff", value: autoLoans[i].amount })
-                    autoLoanAction += `${autoLoanAction ? 'Then use' : 'Use'} cash to payoff ${autoLoans[i].name}.`
+                if(monthlyFunds - lines[i].amount > 0) {
+                    monthlyFunds = monthlyFunds - lines[i].amount;
+                    actions.push({ action: "Payoff", value: lines[i].amount })
+                    actionText += `${actionText ? 'Then use' : 'Use'} paycheck to payoff ${lines[i].name}`
                 } else {
-                    let balance = autoLoans[i].amount;
+                    let balance = lines[i].amount;
                     let payment = 0;
                     if(funds) {
                         balance = balance - funds;
-                        autoLoanAction += `Use $${funds} to pay down.`
+                        actionText += `Use $${funds} to pay down.`
                         payment = funds;
                         funds = 0;
                     }
 
                     let months = Math.ceil(balance / (paycheck));
                     if(monthlyFunds - balance > 0) {
-                        autoLoan.push({ action: balance, value: balance + payment });
+                        actions.push({ action: balance, value: balance + payment });
                         monthlyFunds = monthlyFunds - balance;
-                        autoLoanAction += `Then payoff with $${balance} from your paycheck.`
+                        actionText += `Then payoff with $${balance} from your paycheck.`
                     } else {
-                        autoLoan.push({ action: monthlyFunds, value: monthlyFunds + payment });
+                        actions.push({ action: monthlyFunds, value: monthlyFunds + payment });
                         if(monthlyFunds !== paycheck) {
-                            autoLoanAction += `Pay $${monthlyFunds} this month, then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Pay $${monthlyFunds} this month, then pay $${paycheck} each month for ${months} months.`
                         } else {
-                            autoLoanAction += `Then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Then pay $${paycheck} each month for ${months} months.`
                         }
                         snowballing = false;
                         monthlyFunds = 0;
@@ -255,44 +268,49 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
                     payments += months;
                 }
             } else {
-                autoLoan.push({ action: "Minimum", value: autoLoans[i].amount * .1 })
+                actions.push({ action: "Minimum", value: lines[i].amount * .1 })
             }
         }
     }
+    autoLoan = actions;
+    autoLoanAction = actionText;
 
     // Student Loan
-    for(let i = 0; i < studentLoans.length; i++) {
-        if(funds - studentLoans[i].amount >= 0) {
-            funds = funds - studentLoans[i].amount;
-            studentLoan.push({ action: "Payoff", value: studentLoans[i].amount })
-            studentLoanAction += `${studentLoanAction ? 'Then use' : 'Use'} cash to payoff ${studentLoans[i].name}.`
+    lines = studentLoans;
+    actions = [];
+    actionText = "";
+    for(let i = 0; i < lines.length; i++) {
+        if(funds - lines[i].amount >= 0) {
+            funds = funds - lines[i].amount;
+            actions.push({ action: "Payoff", value: lines[i].amount })
+            actionText += `${actionText ? 'Then use' : 'Use'} cash to payoff ${lines[i].name}.`
         } else {
             if(snowballing && monthlyFunds) {
-                if(monthlyFunds - studentLoans[i].amount > 0) {
-                    monthlyFunds = monthlyFunds - studentLoans[i].amount;
-                    studentLoan.push({ action: "Payoff", value: studentLoans[i].amount })
-                    studentLoanAction += `${studentLoanAction ? 'Then use' : 'Use'} cash to payoff ${studentLoans[i].name}.`
+                if(monthlyFunds - lines[i].amount > 0) {
+                    monthlyFunds = monthlyFunds - lines[i].amount;
+                    actions.push({ action: "Payoff", value: lines[i].amount })
+                    actionText += `${actionText ? 'Then use' : 'Use'} paycheck to payoff ${lines[i].name}`
                 } else {
-                    let balance = studentLoans[i].amount;
+                    let balance = lines[i].amount;
                     let payment = 0;
                     if(funds) {
                         balance = balance - funds;
-                        studentLoanAction += `Use $${funds} to pay down.`
+                        actionText += `Use $${funds} to pay down.`
                         payment = funds;
                         funds = 0;
                     }
 
                     let months = Math.ceil(balance / (paycheck));
                     if(monthlyFunds - balance > 0) {
-                        studentLoan.push({ action: balance, value: balance + payment });
+                        actions.push({ action: balance, value: balance + payment });
                         monthlyFunds = monthlyFunds - balance;
-                        studentLoanAction += `Then payoff with $${balance} from your paycheck.`
+                        actionText += `Then payoff with $${balance} from your paycheck.`
                     } else {
-                        studentLoan.push({ action: monthlyFunds, value: monthlyFunds + payment });
+                        actions.push({ action: monthlyFunds, value: monthlyFunds + payment });
                         if(monthlyFunds !== paycheck) {
-                            studentLoanAction += `Pay $${monthlyFunds} this month, then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Pay $${monthlyFunds} this month, then pay $${paycheck} each month for ${months} months.`
                         } else {
-                            studentLoanAction += `Then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Then pay $${paycheck} each month for ${months} months.`
                         }
                         snowballing = false;
                         monthlyFunds = 0;
@@ -300,10 +318,12 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
                     payments += months;
                 }
             } else {
-                studentLoan.push({ action: "Minimum", value: studentLoans[i].amount * .1 })
+                actions.push({ action: "Minimum", value: lines[i].amount * .1 })
             }
         }
     }
+    studentLoan = actions;
+    studentLoanAction = actionText;
 
     //// STAGE 4
     let mortgageLoan = [];
@@ -316,50 +336,54 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
     }
 
     // Mortgage Loan
-    for(let i = 0; i < mortgageLoans.length; i++) {
-        if(funds - mortgageLoans[i].amount > 0) {
-            funds = funds - mortgageLoans[i].amount;
-            mortgageLoan.push({ action: "Payoff", value: mortgageLoans[i].amount })
-            mortgageLoanAction += `${mortgageLoanAction ? 'Then use' : 'Use'} cash to payoff ${mortgageLoans[i].name}.`
+    lines = mortgageLoans;
+    actions = [];
+    actionText = "";
+    for(let i = 0; i < lines.length; i++) {
+        if(funds - lines[i].amount >= 0) {
+            funds = funds - lines[i].amount;
+            actions.push({ action: "Payoff", value: lines[i].amount })
+            actionText += `${actionText ? 'Then use' : 'Use'} cash to payoff ${lines[i].name}.`
         } else {
             if(snowballing && monthlyFunds) {
-                if(monthlyFunds - mortgageLoans[i].amount > 0) {
-                    monthlyFunds = monthlyFunds - mortgageLoans[i].amount;
-                    mortgageLoan.push({ action: "Payoff", value: mortgageLoans[i].amount })
-                    mortgageLoanAction += `${mortgageLoanAction ? 'Then use' : 'Use'} cash to payoff ${mortgageLoans[i].name}.`
+                if(monthlyFunds - lines[i].amount > 0) {
+                    monthlyFunds = monthlyFunds - lines[i].amount;
+                    actions.push({ action: "Payoff", value: lines[i].amount })
+                    actionText += `${actionText ? 'Then use' : 'Use'} paycheck to payoff ${lines[i].name}`
                 } else {
-                    let balance = mortgageLoans[i].amount;
+                    let balance = lines[i].amount;
                     let payment = 0;
                     if(funds) {
                         balance = balance - funds;
-                        mortgageLoanAction += `Use $${funds} to pay down.`
+                        actionText += `Use $${funds} to pay down.`
                         payment = funds;
                         funds = 0;
                     }
 
                     let months = Math.ceil(balance / (paycheck));
                     if(monthlyFunds - balance > 0) {
-                        mortgageLoan.push({ action: balance, value: balance + payment });
+                        actions.push({ action: balance, value: balance + payment });
                         monthlyFunds = monthlyFunds - balance;
-                        mortgageLoanAction += `Deposit $${balance} from your paycheck.`
+                        actionText += `Then payoff with $${balance} from your paycheck.`
                     } else {
-                        mortgageLoan.push({ action: monthlyFunds, value: monthlyFunds + payment });
+                        actions.push({ action: monthlyFunds, value: monthlyFunds + payment });
                         if(monthlyFunds !== paycheck) {
-                            mortgageLoanAction += `Pay $${monthlyFunds} this month, then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Pay $${monthlyFunds} this month, then pay $${paycheck} each month for ${months} months.`
                         } else {
-                            mortgageLoanAction += `Then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Then pay $${paycheck} each month for ${months} months.`
                         }
                         snowballing = false;
                         monthlyFunds = 0;
-                        mortgageLoanAction += `Deposit $${paycheck} each month for ${months} months.`
                     }
                     payments += months;
                 }
             } else {
-                mortgageLoan.push({ action: "Minimum", value: mortgageLoans[i].amount * .1 })
+                actions.push({ action: "Minimum", value: lines[i].amount * .1 })
             }
         }
     }
+    mortgageLoan = actions;
+    mortgageLoanAction = actionText;
 
     // Investment
     if(monthlyFunds > 0) {

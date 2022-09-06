@@ -11,8 +11,8 @@
 
     import { income, cash, creditCards, personalLoans, autoLoans, studentLoans, mortgageLoans, breakdown } from '../stores';
 
-    income.set(120000);
-    cash.set(60100);
+    income.set(80000);
+    cash.set(65100);
     creditCards.set([
         { name: "Wells Fargo", payment: "125", amount: 500, value: 500 },
         { name: "Chase", payment: "Minimum", amount: 800, value: 800 }
@@ -48,7 +48,7 @@
         <Action description={$breakdown.emergencyFundAction} />
     </div>
     <div class="row {$breakdown.activeStage >= 1 ? "" : "dim"}">
-        <Section name={Content.CreditCard.name}/>
+        <Section name={Content.CreditCard.name} add={true}/>
         <Loans loans={$creditCards} actions={$breakdown.creditCard} />
         <Action description={$breakdown.creditCardAction} />
     </div>
@@ -69,17 +69,17 @@
         <Stage number={3} />
     </div>
     <div class="row {$breakdown.activeStage >= 3 ? "" : "dim"}">
-        <Section name={Content.PersonalLoan.name}/>
+        <Section name={Content.PersonalLoan.name} add={true}/>
         <Loans loans={$personalLoans} actions={$breakdown.personalLoan} />
         <Action description={$breakdown.personalLoanAction} />
     </div>
     <div class="row {$breakdown.activeStage >= 3 ? "" : "dim"}">
-        <Section name={Content.AutoLoan.name}/>
+        <Section name={Content.AutoLoan.name} add={true}/>
         <Loans loans={$autoLoans} actions={$breakdown.autoLoan}/>
         <Action description={$breakdown.autoLoanAction} />
     </div>
     <div class="row {$breakdown.activeStage >= 3 ? "" : "dim"}">
-        <Section name={Content.StudentLoan.name}/>
+        <Section name={Content.StudentLoan.name} add={true}/>
         <Loans loans={$studentLoans} actions={$breakdown.studentLoan} />
         <Action description={$breakdown.studentLoanAction} />
     </div>
@@ -87,7 +87,7 @@
         <Stage number={4} />
     </div>
     <div class="row {$breakdown.activeStage >= 4 ? "" : "dim"}">
-        <Section name={Content.Mortgage.name}/>
+        <Section name={Content.Mortgage.name} add={true}/>
         <Loans loans={$mortgageLoans} actions={$breakdown.mortgageLoan}  />
         <Action description={$breakdown.mortgageLoanAction} />
     </div>
