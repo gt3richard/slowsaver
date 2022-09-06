@@ -7,7 +7,6 @@
     export let loans;
     export let actions = null;
     export let readonly = false;
-
     export let type;
 </script>
 

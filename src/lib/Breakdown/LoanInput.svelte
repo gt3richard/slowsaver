@@ -3,7 +3,6 @@
 
     export let name = "";
     export let balance = null;
-
     export let type;
 
     function addLoan(type, name, balance) {

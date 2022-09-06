@@ -1,4 +1,6 @@
 <script>
+    import { deleteActive, creditCards, studentLoans, autoLoans, personalLoans, mortgageLoans } from "../stores";
+
     export let name = "";
     export let amount;
     export let value;
@@ -6,8 +8,6 @@
     export let payment = "";
     export let type = "";
     export let index = null;
-
-    import { deleteActive, creditCards, studentLoans, autoLoans, personalLoans, mortgageLoans } from "../stores";
 
     function deleteLoan(type, index) {
         if(type === "cc") {

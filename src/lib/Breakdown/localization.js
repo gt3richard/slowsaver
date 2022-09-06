@@ -41,9 +41,8 @@ export const Content = {
         name: "Investment",
         description: "",
         Account: [
-            { name: "Growth", percentage: 0.4 },
-            { name: "Aggressive Growth", percentage: 0.2 },
-            { name: "Small Cap", percentage: 0.2 },
+            { name: "Growth", percentage: 0.6 },
+            { name: "Small Cap Growth", percentage: 0.2 },
             { name: "International", percentage: 0.2 },
         ]
     }
