@@ -12,7 +12,7 @@
     import { income, cash, creditCards, personalLoans, autoLoans, studentLoans, mortgageLoans, breakdown } from '../stores';
 
     income.set(120000);
-    cash.set(10000);
+    cash.set(60100);
     creditCards.set([
         { name: "Wells Fargo", payment: "125", amount: 500, value: 500 },
         { name: "Chase", payment: "Minimum", amount: 800, value: 800 }
