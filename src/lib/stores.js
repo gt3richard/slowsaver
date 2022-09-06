@@ -34,9 +34,9 @@ export const studentLoans = writable([]);
 export const mortgageLoans = writable([]);
 
 function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans, studentLoans, mortgageLoans) {
-    let paycheck = income / 12 * .5;
+    let paycheck = parseFloat((income / 12 * .5).toFixed(2));
     let funds = cash;
-    let monthlyFunds = paycheck;
+    let monthlyFunds = parseFloat(paycheck.toFixed(2));
     let activeStage = 1;
     
     let snowballing = true;
@@ -53,12 +53,12 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
     if(funds - Content.EmergencyFund.amount >= 0) {
         emergencyFund = Content.EmergencyFund.amount;
         funds = funds - Content.EmergencyFund.amount;
-        emergencyFundAction = `Put $${emergencyFund} into a regular savings account.`;
+        emergencyFundAction = `Put $${emergencyFund.toLocaleString()} into a regular savings account.`;
     } else {
         if(funds) {
             emergencyFund = funds;
             funds = 0;
-            emergencyFundAction = `Put $${emergencyFund} into a regular savings account.`;
+            emergencyFundAction = `Put $${emergencyFund.toLocaleString()} into a regular savings account.`;
         }
 
         if (monthlyFunds) {
@@ -67,10 +67,10 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
 
             if(monthlyFunds - balance > 0) {
                 monthlyFunds = monthlyFunds - balance;
-                emergencyFundAction += `Deposit $${balance} from your paycheck.`
+                emergencyFundAction += `Deposit $${balance.toLocaleString()} from your paycheck.`
             } else {
                 monthlyFunds = 0;
-                emergencyFundAction += `Deposit $${paycheck} each month for ${months} months.`
+                emergencyFundAction += `Deposit $${paycheck.toLocaleString()} each month for ${months} months.`
             }
             payments += months;
         }
@@ -96,7 +96,7 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
                     let payment = 0;
                     if(funds) {
                         balance = balance - funds;
-                        actionText += `Use $${funds} to pay down.`
+                        actionText += `Use $${funds.toLocaleString()} to pay down.`
                         payment = funds;
                         funds = 0;
                     }
@@ -105,13 +105,13 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
                     if(monthlyFunds - balance > 0) {
                         actions.push({ action: balance, value: balance + payment });
                         monthlyFunds = monthlyFunds - balance;
-                        actionText += `Then payoff with $${balance} from your paycheck.`
+                        actionText += `Then payoff with $${balance.toLocaleString()} from your paycheck.`
                     } else {
                         actions.push({ action: monthlyFunds, value: monthlyFunds + payment });
                         if(monthlyFunds !== paycheck) {
-                            actionText += `Pay $${monthlyFunds} this month, then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Pay $${monthlyFunds.toLocaleString()} this month, then pay $${paycheck.toLocaleString()} each month for ${months} months.`
                         } else {
-                            actionText += `Then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Then pay $${paycheck.toLocaleString()} each month for ${months} months.`
                         }
                         snowballing = false;
                         monthlyFunds = 0;
@@ -140,19 +140,19 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
     if(funds - (Content.Savings.percentage * income) >= 0) {
         savingsFund = Content.Savings.percentage * income;
         funds = funds - (Content.Savings.percentage * income);
-        savingsFundAction = `Put $${savingsFund} into a high yield savings account.`;
+        savingsFundAction = `Put $${savingsFund.toLocaleString()} into a high yield savings account.`;
     } else {
         if(funds) {
             savingsFund = funds;
             funds = 0;
-            savingsFundAction = `Put $${savingsFund} into a high yield savings account.`;
+            savingsFundAction = `Put $${savingsFund.toLocaleString()} into a high yield savings account.`;
         }
 
         if (monthlyFunds) {
             let balance = (Content.Savings.percentage * income) - savingsFund;
             let months = Math.ceil(balance / paycheck);
             monthlyFunds = 0;
-            savingsFundAction += `Deposit $${paycheck} each month for ${months} months.`
+            savingsFundAction += `Deposit $${paycheck.toLocaleString()} each month for ${months} months.`
             payments += months;
         }
     }
@@ -195,7 +195,7 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
                     let payment = 0;
                     if(funds) {
                         balance = balance - funds;
-                        actionText += `Use $${funds} to pay down.`
+                        actionText += `Use $${funds.toLocaleString()} to pay down.`
                         payment = funds;
                         funds = 0;
                     }
@@ -204,13 +204,13 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
                     if(monthlyFunds - balance > 0) {
                         actions.push({ action: balance, value: balance + payment });
                         monthlyFunds = monthlyFunds - balance;
-                        actionText += `Then payoff with $${balance} from your paycheck.`
+                        actionText += `Then payoff with $${balance.toLocaleString()} from your paycheck.`
                     } else {
                         actions.push({ action: monthlyFunds, value: monthlyFunds + payment });
                         if(monthlyFunds !== paycheck) {
-                            actionText += `Pay $${monthlyFunds} this month, then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Pay $${monthlyFunds.toLocaleString()} this month, then pay $${paycheck.toLocaleString()} each month for ${months} months.`
                         } else {
-                            actionText += `Then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Then pay $${paycheck.toLocaleString()} each month for ${months} months.`
                         }
                         snowballing = false;
                         monthlyFunds = 0;
@@ -245,7 +245,7 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
                     let payment = 0;
                     if(funds) {
                         balance = balance - funds;
-                        actionText += `Use $${funds} to pay down.`
+                        actionText += `Use $${funds.toLocaleString()} to pay down.`
                         payment = funds;
                         funds = 0;
                     }
@@ -254,13 +254,13 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
                     if(monthlyFunds - balance > 0) {
                         actions.push({ action: balance, value: balance + payment });
                         monthlyFunds = monthlyFunds - balance;
-                        actionText += `Then payoff with $${balance} from your paycheck.`
+                        actionText += `Then payoff with $${balance.toLocaleString()} from your paycheck.`
                     } else {
                         actions.push({ action: monthlyFunds, value: monthlyFunds + payment });
                         if(monthlyFunds !== paycheck) {
-                            actionText += `Pay $${monthlyFunds} this month, then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Pay $${monthlyFunds.toLocaleString()} this month, then pay $${paycheck.toLocaleString()} each month for ${months} months.`
                         } else {
-                            actionText += `Then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Then pay $${paycheck.toLocaleString()} each month for ${months} months.`
                         }
                         snowballing = false;
                         monthlyFunds = 0;
@@ -295,7 +295,7 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
                     let payment = 0;
                     if(funds) {
                         balance = balance - funds;
-                        actionText += `Use $${funds} to pay down.`
+                        actionText += `Use $${funds.toLocaleString()} to pay down.`
                         payment = funds;
                         funds = 0;
                     }
@@ -304,13 +304,13 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
                     if(monthlyFunds - balance > 0) {
                         actions.push({ action: balance, value: balance + payment });
                         monthlyFunds = monthlyFunds - balance;
-                        actionText += `Then payoff with $${balance} from your paycheck.`
+                        actionText += `Then payoff with $${balance.toLocaleString()} from your paycheck.`
                     } else {
                         actions.push({ action: monthlyFunds, value: monthlyFunds + payment });
                         if(monthlyFunds !== paycheck) {
-                            actionText += `Pay $${monthlyFunds} this month, then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Pay $${monthlyFunds.toLocaleString()} this month, then pay $${paycheck.toLocaleString()} each month for ${months} months.`
                         } else {
-                            actionText += `Then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Then pay $${paycheck.toLocaleString()} each month for ${months} months.`
                         }
                         snowballing = false;
                         monthlyFunds = 0;
@@ -355,7 +355,7 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
                     let payment = 0;
                     if(funds) {
                         balance = balance - funds;
-                        actionText += `Use $${funds} to pay down.`
+                        actionText += `Use $${funds.toLocaleString()} to pay down.`
                         payment = funds;
                         funds = 0;
                     }
@@ -364,13 +364,13 @@ function calculateBreakdown(income, cash, creditCards, personalLoans, autoLoans,
                     if(monthlyFunds - balance > 0) {
                         actions.push({ action: balance, value: balance + payment });
                         monthlyFunds = monthlyFunds - balance;
-                        actionText += `Then payoff with $${balance} from your paycheck.`
+                        actionText += `Then payoff with $${balance.toLocaleString()} from your paycheck.`
                     } else {
                         actions.push({ action: monthlyFunds, value: monthlyFunds + payment });
                         if(monthlyFunds !== paycheck) {
-                            actionText += `Pay $${monthlyFunds} this month, then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Pay $${monthlyFunds.toLocaleString()} this month, then pay $${paycheck.toLocaleString()} each month for ${months} months.`
                         } else {
-                            actionText += `Then pay $${paycheck} each month for ${months} months.`
+                            actionText += `Then pay $${paycheck.toLocaleString()} each month for ${months} months.`
                         }
                         snowballing = false;
                         monthlyFunds = 0;

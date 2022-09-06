@@ -35,63 +35,67 @@
         { name: "Home", payment: "Minimum", amount: 450000, value: 500000 },
     ]);
 
+    function isActive(stage) {
+        return $breakdown.activeStage >= stage;
+    }
+
 </script>
 
 <div class="container text-center">
     <Input />
-    <div class="row {$breakdown.activeStage >= 1 ? "" : "dim"}">
+    <div class="row {isActive(1) ? "" : "dim"}">
         <Stage number={1} />
     </div>
-    <div class="row {$breakdown.activeStage >= 1 ? "" : "dim"}">
+    <div class="row {isActive(1) ? "" : "dim"}">
         <Section name={Content.EmergencyFund.name}/>
         <Funds account={Content.EmergencyFund} amount={$breakdown.emergencyFund} />
         <Action description={$breakdown.emergencyFundAction} />
     </div>
-    <div class="row {$breakdown.activeStage >= 1 ? "" : "dim"}">
-        <Section name={Content.CreditCard.name} add={true}/>
-        <Loans loans={$creditCards} actions={$breakdown.creditCard} />
+    <div class="row {isActive(1) ? "" : "dim"}">
+        <Section name={Content.CreditCard.name}/>
+        <Loans loans={$creditCards} actions={$breakdown.creditCard} readonly={!isActive(1)} />
         <Action description={$breakdown.creditCardAction} />
     </div>
-    <div class="row {$breakdown.activeStage >= 2 ? "" : "dim"}">
+    <div class="row {isActive(2) ? "" : "dim"}">
         <Stage number={2} />
     </div>
-    <div class="row {$breakdown.activeStage >= 2 ? "" : "dim"}">
+    <div class="row {isActive(2) ? "" : "dim"}">
         <Section name={Content.Savings.name}/>
         <Funds account={Content.Savings} amount={$breakdown.savingsFund} />
         <Action description={$breakdown.savingsFundAction} />
     </div>
-    <div class="row {$breakdown.activeStage >= 2 ? "" : "dim"}">
+    <div class="row {isActive(2) ? "" : "dim"}">
         <Section name={Content.Retirement.name}/>
         <Investments accounts={Content.Retirement.Account} actions={$breakdown.retirementFund} />
         <Action description={$breakdown.retirementFundAction} />
     </div>
-    <div class="row {$breakdown.activeStage >= 3 ? "" : "dim"}">
+    <div class="row {isActive(3) ? "" : "dim"}">
         <Stage number={3} />
     </div>
-    <div class="row {$breakdown.activeStage >= 3 ? "" : "dim"}">
-        <Section name={Content.PersonalLoan.name} add={true}/>
-        <Loans loans={$personalLoans} actions={$breakdown.personalLoan} />
+    <div class="row {isActive(3) ? "" : "dim"}">
+        <Section name={Content.PersonalLoan.name}/>
+        <Loans loans={$personalLoans} actions={$breakdown.personalLoan} readonly={!isActive(3)} />
         <Action description={$breakdown.personalLoanAction} />
     </div>
-    <div class="row {$breakdown.activeStage >= 3 ? "" : "dim"}">
-        <Section name={Content.AutoLoan.name} add={true}/>
-        <Loans loans={$autoLoans} actions={$breakdown.autoLoan}/>
+    <div class="row {isActive(3) ? "" : "dim"}">
+        <Section name={Content.AutoLoan.name}/>
+        <Loans loans={$autoLoans} actions={$breakdown.autoLoan} readonly={!isActive(3)}/>
         <Action description={$breakdown.autoLoanAction} />
     </div>
-    <div class="row {$breakdown.activeStage >= 3 ? "" : "dim"}">
-        <Section name={Content.StudentLoan.name} add={true}/>
-        <Loans loans={$studentLoans} actions={$breakdown.studentLoan} />
+    <div class="row {isActive(3) ? "" : "dim"}">
+        <Section name={Content.StudentLoan.name}/>
+        <Loans loans={$studentLoans} actions={$breakdown.studentLoan} readonly={!isActive(3)} />
         <Action description={$breakdown.studentLoanAction} />
     </div>
-    <div class="row {$breakdown.activeStage >= 4 ? "" : "dim"}">
+    <div class="row {isActive(4) ? "" : "dim"}">
         <Stage number={4} />
     </div>
-    <div class="row {$breakdown.activeStage >= 4 ? "" : "dim"}">
-        <Section name={Content.Mortgage.name} add={true}/>
-        <Loans loans={$mortgageLoans} actions={$breakdown.mortgageLoan}  />
+    <div class="row {isActive(4) ? "" : "dim"}">
+        <Section name={Content.Mortgage.name}/>
+        <Loans loans={$mortgageLoans} actions={$breakdown.mortgageLoan} readonly={!isActive(4)}  />
         <Action description={$breakdown.mortgageLoanAction} />
     </div>
-    <div class="row {$breakdown.activeStage >= 4 ? "" : "dim"}">
+    <div class="row {isActive(4) ? "" : "dim"}">
         <Section name={Content.Investment.name}/>
         <Investments accounts={Content.Investment.Account} actions={$breakdown.investment} />
         <Action description={$breakdown.investmentAction} />
