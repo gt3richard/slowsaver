@@ -1,0 +1,12 @@
+<script>
+    import { income } from '../stores';
+
+    import Progress from './Progress.svelte';
+
+    export let account;
+    export let amount = 0;
+</script>
+
+<div class="col-6 m-auto">
+    <Progress amount={account.amount || account.percentage * $income || 10000 } value={amount}/>
+</div>

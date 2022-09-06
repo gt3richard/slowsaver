@@ -2,7 +2,7 @@
     export let name;
 </script>
 
-<div class="col-6 m-auto">
+<div class="col-4 my-auto secondary-color">
     <h3>
         {name}
     </h3>

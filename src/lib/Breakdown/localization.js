@@ -16,7 +16,12 @@ export const Content = {
     Retirement: {
         name: "Retirement",
         description: "",
-        percentage: .15
+        percentage: .15,
+        Account: [
+            { name: "401k up to company match" },
+            { name: "Roth IRA" },
+            { name: "Traditional IRA" }
+        ]
     },
     PersonalLoan: {
         name: "Personal Loan",
@@ -37,5 +42,11 @@ export const Content = {
     Investment: {
         name: "Investment",
         description: "",
+        Account: [
+            { name: "Growth", percentage: 0.4 },
+            { name: "Aggressive Growth", percentage: 0.2 },
+            { name: "Small Cap", percentage: 0.2 },
+            { name: "International", percentage: 0.2 },
+        ]
     }
 }

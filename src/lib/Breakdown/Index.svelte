@@ -1,96 +1,113 @@
-<script>
-    import { income, cash } from '../stores';
-    
+<script>    
+    import Input from './Input.svelte';
     import Stage from './Stage.svelte';
     import Section from './Section.svelte';
-    import Progress from './Progress.svelte';
-    import Percentage from './Percentage.svelte';
+    import Loans from './Loans.svelte';
+    import Funds from './Funds.svelte';
+    import Investments from './Investments.svelte';
+    import Action from './Action.svelte';
 
     import { Content } from './localization';
+
+    import { income, cash, creditCards, personalLoans, autoLoans, studentLoans, mortgageLoans, breakdown } from '../stores';
+
+    income.set(120000);
+    cash.set(10000);
+    creditCards.set([
+        { name: "Wells Fargo", payment: "125", amount: 500, value: 500 },
+        { name: "Chase", payment: "Minimum", amount: 800, value: 800 }
+    ]);
+
+    personalLoans.set([
+        { name: "Line of Credit", payment: "Minimum", amount: 70, value: 100 },
+    ]);
+
+    autoLoans.set([
+        { name: "Mercedes", payment: "Minimum", amount: 50, value: 100 },
+        { name: "Porsche", payment: "Minimum", amount: 30, value: 100 },
+    ]);
+
+    studentLoans.set([
+        { name: "University of School", payment: "Minimum", amount: 90, value: 100 },
+    ]);
+
+    mortgageLoans.set([
+        { name: "Home", payment: "Minimum", amount: 450000, value: 500000 },
+    ]);
+
 </script>
 
 <div class="container text-center">
-    <div class="row">
-        <h4 class="input">
-            Annual Income $<input type=number bind:value={$income} placeholder="0">
-        </h4>
-        <h4 class="input">
-            Total Cash $<input type=number bind:value={$cash} placeholder="0">
-        </h4>
+    <Input />
+    <div class="row {$breakdown.activeStage >= 1 ? "" : "dim"}">
+        <Stage number={1} />
     </div>
-    <Stage number={1} />
-    <div class="row">
+    <div class="row {$breakdown.activeStage >= 1 ? "" : "dim"}">
         <Section name={Content.EmergencyFund.name}/>
-        <div class="col-6 m-auto">
-            <Progress amount={Content.EmergencyFund.amount} value={600}/>
-        </div>
+        <Funds account={Content.EmergencyFund} amount={$breakdown.emergencyFund} />
+        <Action description={$breakdown.emergencyFundAction} />
     </div>
-    <div class="row">
+    <div class="row {$breakdown.activeStage >= 1 ? "" : "dim"}">
         <Section name={Content.CreditCard.name}/>
-        <div class="col-6 m-auto">
-            <Progress amount={100} value={60} isDebt={true} name={"Wells Fargo"} payment={"125"} />
-            <Progress amount={100} value={40} isDebt={true} name={"Chase"} payment={"Minimum"} />
-        </div>
+        <Loans loans={$creditCards} actions={$breakdown.creditCardAction} />
+        <Action description={"Pay it off"} />
     </div>
-    <Stage number={2} />
-    <div class="row">
+    <div class="row {$breakdown.activeStage >= 2 ? "" : "dim"}">
+        <Stage number={2} />
+    </div>
+    <div class="row {$breakdown.activeStage >= 2 ? "" : "dim"}">
         <Section name={Content.Savings.name}/>
-        <div class="col-6 m-auto">
-            <Progress amount={1000} value={600} />
-        </div>
+        <Funds account={Content.Savings} amount={$breakdown.savingsFund} />
+        <Action description={$breakdown.savingsFundAction} />
     </div>
-    <div class="row">
+    <div class="row {$breakdown.activeStage >= 2 ? "" : "dim"}">
         <Section name={Content.Retirement.name}/>
-        <div class="col-6 m-auto">
-            <Percentage name={Content.Retirement.percentage * 100 + "% of Annual Income"} amount={200} />
-        </div>      
+        <Investments accounts={Content.Retirement.Account} />
+        <Action description={"Pay it off"} />
     </div>
-    <Stage number={3} />
-    <div class="row">
+    <div class="row {$breakdown.activeStage >= 3 ? "" : "dim"}">
+        <Stage number={3} />
+    </div>
+    <div class="row {$breakdown.activeStage >= 3 ? "" : "dim"}">
         <Section name={Content.PersonalLoan.name}/>
-        <div class="col-6 m-auto">
-            <Progress amount={100} value={60} isDebt={true} name={"Line of Credit"} payment={"Minimum"} />
-        </div>
+        <Loans loans={$personalLoans} />
+        <Action description={"Pay it off"} />
     </div>
-    <div class="row">
+    <div class="row {$breakdown.activeStage >= 3 ? "" : "dim"}">
         <Section name={Content.AutoLoan.name}/>
-        <div class="col-6 m-auto">
-            <Progress amount={100} value={60} isDebt={true} name={"Mercedes"} payment={"Minimum"} />
-            <Progress amount={100} value={40} isDebt={true} name={"Porsche"} payment={"Minimum"} />
-        </div>
+        <Loans loans={$autoLoans} />
+        <Action description={"Pay it off"} />
     </div>
-    <div class="row">
+    <div class="row {$breakdown.activeStage >= 3 ? "" : "dim"}">
         <Section name={Content.StudentLoan.name}/>
-        <div class="col-6 m-auto">
-            <Progress amount={100} value={100} isDebt={true} name={"University of School"} payment={"Minimum"} />
-        </div>
+        <Loans loans={$studentLoans} />
+        <Action description={"Pay it off"} />
     </div>
-    <Stage number={4} />
-    <div class="row">
+    <div class="row {$breakdown.activeStage >= 4 ? "" : "dim"}">
+        <Stage number={4} />
+    </div>
+    <div class="row {$breakdown.activeStage >= 4 ? "" : "dim"}">
         <Section name={Content.Mortgage.name}/>
-        <div class="col-6 m-auto">
-            <Progress amount={100} value={100} isDebt={true} name={"Home"} payment={"Minimum"} />
-        </div>
+        <Loans loans={$mortgageLoans} />
+        <Action description={"Pay it off"} />
     </div>
-    <div class="row">
+    <div class="row {$breakdown.activeStage >= 4 ? "" : "dim"}">
         <Section name={Content.Investment.name}/>
-        <div class="col-6 m-auto">
-            <Percentage name={"Growth"} percentage={.4} amount={400} />
-            <Percentage name={"Aggressive Growth"} percentage={.2} amount={200} />
-            <Percentage name={"Small Cap"} percentage={.2} amount={200} />
-            <Percentage name={"International"} percentage={.2} amount={200} />
-        </div>
+        <Investments accounts={Content.Investment.Account} />
+        <Action description={"Pay it off"} />
     </div>
 </div>
 
 <style>
-    .input {
-        padding: 1em;
-    }
-    input {
-        border: none;
-        background-color: transparent;
-        border-bottom: 1px solid white;
-        padding-left: 1em;
+    .dim {
+        display: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: .4;
+        z-index: 2;
     }
 </style>
