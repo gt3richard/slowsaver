@@ -66,3 +66,7 @@ export const breakdown = derived(
     ([$profile, $creditCards, $personalLoans, $autoLoans, $studentLoans, $mortgageLoans]) => 
         calculateBreakdown($profile, $creditCards, $personalLoans, $autoLoans, $studentLoans, $mortgageLoans)
 );
+
+export const basicsLeak = writable([]);
+export const subscriptionsLeak = writable([]);
+export const habitsLeak = writable([]);

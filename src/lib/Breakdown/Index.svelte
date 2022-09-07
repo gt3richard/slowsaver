@@ -13,6 +13,8 @@
 </script>
 
 <div class="container text-center">
+    <h1 class="header">The Breakdown</h1>
+    <h4 class="subheader secondary-color">It'll take time but it'll be worth it</h4>
     <Input />
     <br><br>
     <div class="row {$breakdown.activeStage >= 1 ? "" : "dim"}">
@@ -75,6 +77,13 @@
 </div>
 
 <style>
+    .header {
+        font-weight: 700;
+        padding-top: 1em;
+    }
+    .subheader {
+        padding-bottom: 1em;
+    }
     .dim {
         display: absolute;
         width: 100%;
