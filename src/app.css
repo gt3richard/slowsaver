@@ -77,6 +77,10 @@ h1 {
   color: #636161;
 }
 
+.tertiary-color {
+  color: #a09d9d;
+}
+
 textarea:focus, input:focus{
   outline: none;
 }

@@ -1,15 +1,17 @@
 <script>
-    export let name;
+    export let data;
 </script>
 
-<div class="col-4 my-auto secondary-color">
-    <h3>
-        {name}
-    </h3>
+<div class="section col-4 my-auto">
+    <h3>{data.name}</h3>
+    <p class="tertiary-color">{data.description}</p>
 </div>
 
 <style>
-    h3 {
+    .section {
         padding: 2em;
+    }
+    p {
+        padding-top: 1em;
     }
 </style>

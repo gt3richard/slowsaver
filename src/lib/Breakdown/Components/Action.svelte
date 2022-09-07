@@ -2,7 +2,7 @@
     export let description;
 </script>
 
-<div class="col-2 my-auto secondary-color">
+<div class="col-2 my-auto tertiary-color">
     <span>
         {description}
     </span>
