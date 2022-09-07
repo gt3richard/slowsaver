@@ -9,7 +9,7 @@
 
     import { Content } from './localization';
 
-    import { income, cash, creditCards, personalLoans, autoLoans, studentLoans, mortgageLoans, breakdown } from '../stores';
+    import { creditCards, personalLoans, autoLoans, studentLoans, mortgageLoans, breakdown } from '../stores';
 
     // income.set(80000);
     // cash.set(65100);
