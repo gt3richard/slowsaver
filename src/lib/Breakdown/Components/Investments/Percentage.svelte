@@ -1,11 +1,12 @@
 <script>
     export let name;
+    export let description = "";
     export let percentage = 0;
     export let amount;
 </script>
 
 <div class="row my-3">
-    <div class="col-6 my-auto"><h4>{name}</h4></div>
+    <div class="col-6 my-auto"><h4>{name}</h4><span class="secondary-color">{description}</span></div>
     {#if percentage}
     <div class="col-3 my-auto"><h4>{percentage * 100}%</h4></div>
     {/if}

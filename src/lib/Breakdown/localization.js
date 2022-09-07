@@ -41,9 +41,9 @@ export const Content = {
         name: "Investment",
         description: "You've made it to the end game. Use a no-fee broker like Vanguard to regularly invest in growth mutual funds.",
         Account: [
-            { name: "Growth", percentage: 0.6 },
-            { name: "Small Cap Growth", percentage: 0.2 },
-            { name: "International", percentage: 0.2 },
+            { name: "Growth", percentage: 0.6, description: "Suggest: VIGAX" },
+            { name: "Small Cap Growth", percentage: 0.2, description: "Suggest: VSGAX" },
+            { name: "International", percentage: 0.2, description: "Suggest: VTIAX" },
         ]
     }
 }

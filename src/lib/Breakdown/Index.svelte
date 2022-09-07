@@ -14,6 +14,7 @@
 
 <div class="container text-center">
     <Input />
+    <br><br>
     <div class="row {$breakdown.activeStage >= 1 ? "" : "dim"}">
         <Stage number={1} />
     </div>
