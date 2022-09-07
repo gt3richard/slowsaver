@@ -32,3 +32,10 @@ jobs:
       - run:
           command: aws s3 sync dist/ s3://slowsaver.com/$CIRCLE_BRANCH
           name: Deploy AWS S3
+      - when:
+          condition:
+            equal: [master, << pipeline.git.branch >>]
+          steps:
+            - run:
+                command: aws cloudfront create-invalidation --distribution-id EZQJTTP2YS5KF --paths '/*'
+                name: Invalidate Prod Cloudfront

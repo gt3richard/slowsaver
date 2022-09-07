@@ -28,15 +28,20 @@
         }
         $deleteActive = ""
     }
+
+    function showDelete(type, index) {
+        let key = type + "-" + index;
+        return $deleteActive === key ? "" : key;
+    }
 </script>
 
 <div class="row my-3">
     {#if name}
-    <div class="col-3 my-auto" on:click={() => $deleteActive = type + "-" + index}>
+    <div class="col-3 my-auto" on:click={() => $deleteActive = showDelete(type, index)}>
         <h4>{name}</h4>
     </div>
     {/if}
-    <div class={name ? payment ? "col-6" : "col-9" : "col"}  on:click={() => $deleteActive = type + "-" + index}>
+    <div class={name ? payment ? "col-6" : "col-9" : "col"}  on:click={() => $deleteActive = showDelete(type, index)}>
         <div class="row">
             <div class="col left">$0</div>
             <div class="col right">${amount.toLocaleString()}</div>
