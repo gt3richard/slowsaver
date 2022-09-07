@@ -1,5 +1,5 @@
 <script>
-    import { deleteActive, creditCards, studentLoans, autoLoans, personalLoans, mortgageLoans } from "../stores";
+    import { deleteActive, creditCards, studentLoans, autoLoans, personalLoans, mortgageLoans } from "../../../stores";
 
     export let name = "";
     export let amount;

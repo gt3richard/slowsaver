@@ -1,5 +1,5 @@
 <script>
-    import { profile } from '../stores';
+    import { profile } from '../../../stores';
 
     import Progress from './Progress.svelte';
 

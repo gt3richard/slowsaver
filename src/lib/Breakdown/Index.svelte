@@ -1,11 +1,11 @@
 <script>    
     import Input from './Input.svelte';
-    import Stage from './Stage.svelte';
-    import Section from './Section.svelte';
-    import Loans from './Loans.svelte';
-    import Funds from './Funds.svelte';
-    import Investments from './Investments.svelte';
-    import Action from './Action.svelte';
+    import Stage from './Components/Stage.svelte';
+    import Section from './Components/Section.svelte';
+    import Loans from './Components/Loans/Loans.svelte';
+    import Funds from './Components/Funds/Funds.svelte';
+    import Investments from './Components/Investments/Investments.svelte';
+    import Action from './Components/Action.svelte';
 
     import { Content } from './localization';
 

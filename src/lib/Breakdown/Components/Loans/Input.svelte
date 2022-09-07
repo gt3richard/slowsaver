@@ -1,5 +1,5 @@
 <script>
-    import { inputActive, creditCards, studentLoans, autoLoans, personalLoans, mortgageLoans } from '../stores';
+    import { inputActive, creditCards, studentLoans, autoLoans, personalLoans, mortgageLoans } from '../../../stores';
 
     export let name = "";
     export let balance = null;

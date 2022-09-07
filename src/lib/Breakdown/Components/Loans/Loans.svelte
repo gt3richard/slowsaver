@@ -1,7 +1,7 @@
 <script>
-    import { inputActive } from '../stores';
+    import { inputActive } from '../../../stores';
 
-    import LoanInput from './LoanInput.svelte';
+    import LoanInput from './Input.svelte';
     import Progress from './Progress.svelte';
 
     export let loans;
