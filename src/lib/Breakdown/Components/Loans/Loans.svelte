@@ -10,7 +10,7 @@
     export let type;
 </script>
 
-<div class="col-6 m-auto">
+<div class="col col-md-6 m-auto">
     {#each loans as { name, payment, amount, value}, index}
     <Progress type={type} index={index} amount={amount} value={actions && actions.length > 0 ? actions[index].value : value} isDebt={actions && actions.length > 0 && actions[index].action === "Payoff" ? false : true} name={name} payment={actions && actions.length > 0 ? actions[index].action : payment} />
     {/each}

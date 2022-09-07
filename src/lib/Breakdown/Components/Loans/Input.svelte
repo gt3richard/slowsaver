@@ -35,13 +35,13 @@
 </script>
 
 <div class="row m-auto mb-3">
-    <div class="col p-2">
+    <div class="col-12 col-md-4 p-2">
         <input bind:value={name} placeholder="name">
     </div>
-    <div class="col p-2">
+    <div class="col-12 col-md-4 p-2">
         <input type=number bind:value={balance} placeholder="balance">
     </div>
-    <div class="col p-2">
+    <div class="col-12 col-md-4 p-2">
         <button type="button" class="btn btn-success" on:click={() => addLoan(type, name, balance) }>Save</button>
         <button type="button" class="btn btn-secondary" on:click={() => clearInput()}>Close</button>
     </div>

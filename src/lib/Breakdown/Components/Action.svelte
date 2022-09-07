@@ -2,14 +2,15 @@
     export let description;
 </script>
 
-<div class="col-2 my-auto tertiary-color">
-    <span>
+<div class="col-12 col-md-2 my-auto tertiary-color">
+    <p>
         {description}
-    </span>
+    </p>
 </div>
 
 <style>
-    span {
+    p {
         font-size: 1.2em;
+        padding: 1em;
     }
 </style>
