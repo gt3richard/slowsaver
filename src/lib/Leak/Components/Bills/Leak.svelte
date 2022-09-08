@@ -21,10 +21,15 @@
         $leakDelete = "";
     }
 
+    function showDelete(type, index) {
+        let key = type + "-" + index;
+        return $leakDelete === key ? "" : key;
+    }
+
 </script>
 
-<div class="leak p-2 m-2" on:click={() => $leakDelete = $leakDelete === `${type}-${index}` ? '' : `${type}-${index}`}>
-    <span class="px-2">{`$${cost} ${name}`}</span>
+<div class="leak p-2 m-2">
+    <span class="px-2" on:click={() => $leakDelete = showDelete(type, index)}>{`$${cost} ${name}`}</span>
     {#if $leakDelete === `${type}-${index}`}
         <button type="button" class="btn btn-danger btn-sm" on:click={deleteLeak}>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">

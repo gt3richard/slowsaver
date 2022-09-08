@@ -2,8 +2,9 @@
   import Breakdown from './lib/Breakdown/Index.svelte';
   import Leak from './lib/Leak/Index.svelte';
 
+  import { page } from './lib/stores';
+
   let expandNav = false;
-  let page = "breakdown";
 
 </script>
 
@@ -16,17 +17,17 @@
     <div class={(expandNav ? " " : "collapse ") + "navbar-collapse"} id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" on:click={() => page = "breakdown"} href="#">The Breakdown</a>
+          <a class="nav-link" on:click={() => page.set("breakdown")} href="#">The Breakdown</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" on:click={() => page = "leak"} href="#">The Leak</a>
+          <a class="nav-link" on:click={() => page.set("leak")} href="#">The Leak</a>
         </li>
       </ul>
     </div>
   </nav>
-  {#if page === "breakdown"}
+  {#if $page === "breakdown"}
     <Breakdown />
-  {:else if page === "leak"}
+  {:else if $page === "leak"}
     <Leak />
   {:else}
     <Breakdown />

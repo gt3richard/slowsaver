@@ -4,6 +4,12 @@ import { calculateMonthlySchedule } from './Amortization/service';
 import { calculateMonthlyPayments } from './Amortization/calculations';
 import { calculateBreakdown } from './Breakdown/render';
 
+const storedPage = localStorage.getItem("storedPage") || "breakdown";
+export const page = writable(storedPage);
+page.subscribe(value => {
+    localStorage.setItem("storedPage", value);
+});
+
 export const loanAmount = writable(0);
 export const loanTerm = writable(0);
 export const mortgageAPY = writable(0);
