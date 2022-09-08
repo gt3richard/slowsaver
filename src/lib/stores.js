@@ -70,3 +70,6 @@ export const breakdown = derived(
 export const basicsLeak = writable([]);
 export const subscriptionsLeak = writable([]);
 export const habitsLeak = writable([]);
+
+export const leakActive = writable("");
+export const leakDelete = writable("");

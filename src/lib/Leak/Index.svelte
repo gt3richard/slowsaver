@@ -75,25 +75,25 @@
         <Stage name={"Basics"} />
     </div>
     <div class="row">
-        <Bills bills={$basicsLeak} />
+        <Bills bills={$basicsLeak} type="bas" />
         <hr class="dash">
-        <Options options={basicsOptions.filter(f => !$basicsLeak.map(m => m.name).includes(f.name))} />
+        <Options options={basicsOptions.filter(f => !$basicsLeak.map(m => m.name).includes(f.name))} type={"bas"} />
     </div>
     <div class="row">
         <Stage name={"Subscriptions"} />
     </div>
     <div class="row">
-        <Bills bills={$subscriptionsLeak} />
+        <Bills bills={$subscriptionsLeak} type="sub" />
         <hr class="dash">
-        <Options options={subscriptionsOptions.filter(f => !$subscriptionsLeak.map(m => m.name).includes(f.name))} />
+        <Options options={subscriptionsOptions.filter(f => !$subscriptionsLeak.map(m => m.name).includes(f.name))} type={"sub"} />
     </div>
     <div class="row">
         <Stage name={"Habits"} />
     </div>
     <div class="row">
-        <Bills bills={$habitsLeak} />
+        <Bills bills={$habitsLeak} type="hab" />
         <hr class="dash">
-        <Options options={habitsOptions.filter(f => !$habitsLeak.map(m => m.name).includes(f.name))} />
+        <Options options={habitsOptions.filter(f => !$habitsLeak.map(m => m.name).includes(f.name))} type={"hab"} />
     </div>
 </div>
 

@@ -1,13 +1,15 @@
 <script>
+    import Leak from './Leak.svelte';
+
     export let bills = [];
+    export let type;
+
 </script>
 
 <div class="bills col-12 my-auto">
     <div class="d-flex flex-wrap">
-        {#each bills as { name, cost }}
-        <div class="leak p-2 m-2">
-            <span>{`$${cost} ${name}`}</span>
-        </div>
+        {#each bills as { name, cost }, index}
+            <Leak name={name} cost={cost} index={index} type={type} />
         {/each}
     </div>
 </div>
@@ -16,15 +18,5 @@
     .bills {
         padding: 2em;
     }
-    .leak {
-        font-weight: 500;
-        color: #242424;
-        border: 1px solid rgba(255, 255, 255, 0.87);
-        border-radius: 10px;
-        background-color: rgba(255, 255, 255, 0.87);
-    }
-    .leak:hover {
-        color: #636161;
-        cursor: pointer;
-    }
+    
 </style>
