@@ -3,6 +3,7 @@
     import Stage from './Components/Stage.svelte';
     import Bills from './Components/Bills/Bills.svelte';
     import Options from './Components/Options/Options.svelte';
+    import Section from './Components/Section.svelte';
 
     import { basicsLeak, subscriptionsLeak, habitsLeak } from '../stores';
 
@@ -64,6 +65,10 @@
         { name: "Dinner", cost: 200 },
         { name: "Movies", cost: 39 },
     ];
+
+    function sum(list) {
+        return list.map(m => m.cost).reduce((p, c) => p + c, 0).toFixed(2);
+    }
 </script>
 
 <div class="container text-center">
@@ -75,25 +80,34 @@
         <Stage name={"Basics"} />
     </div>
     <div class="row">
-        <Bills bills={$basicsLeak} type="bas" />
-        <hr class="dash">
-        <Options options={basicsOptions.filter(f => !$basicsLeak.map(m => m.name).includes(f.name))} type={"bas"} />
+        <div class="col-12 col-md-8">
+            <Bills bills={$basicsLeak} type="bas" />
+            <hr class="dash">
+            <Options options={basicsOptions.filter(f => !$basicsLeak.map(m => m.name).includes(f.name))} type={"bas"} />
+        </div>
+        <Section data={{name: "$" +sum($basicsLeak), description: "That's a whole bunch of starbucks."}} />
     </div>
     <div class="row">
         <Stage name={"Subscriptions"} />
     </div>
     <div class="row">
-        <Bills bills={$subscriptionsLeak} type="sub" />
-        <hr class="dash">
-        <Options options={subscriptionsOptions.filter(f => !$subscriptionsLeak.map(m => m.name).includes(f.name))} type={"sub"} />
+        <div class="col-12 col-md-8">
+            <Bills bills={$subscriptionsLeak} type="sub" />
+            <hr class="dash">
+            <Options options={subscriptionsOptions.filter(f => !$subscriptionsLeak.map(m => m.name).includes(f.name))} type={"sub"} />
+        </div>
+        <Section data={{name: "$" +sum($subscriptionsLeak), description: "That's a whole bunch of starbucks."}} />
     </div>
     <div class="row">
         <Stage name={"Habits"} />
     </div>
     <div class="row">
-        <Bills bills={$habitsLeak} type="hab" />
-        <hr class="dash">
-        <Options options={habitsOptions.filter(f => !$habitsLeak.map(m => m.name).includes(f.name))} type={"hab"} />
+        <div class="col-12 col-md-8">
+            <Bills bills={$habitsLeak} type="hab" />
+            <hr class="dash">
+            <Options options={habitsOptions.filter(f => !$habitsLeak.map(m => m.name).includes(f.name))} type={"hab"} />
+        </div>
+        <Section data={{name: "$" +sum($habitsLeak), description: "That's a whole bunch of starbucks."}} />
     </div>
 </div>
 
