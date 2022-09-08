@@ -4,8 +4,9 @@
     import Bills from './Components/Bills/Bills.svelte';
     import Options from './Components/Options/Options.svelte';
     import Section from './Components/Section.svelte';
+    import Monthly from './Monthly.svelte';
 
-    import { basicsLeak, subscriptionsLeak, habitsLeak } from '../stores';
+    import { basicsLeak, subscriptionsLeak, habitsLeak, profile } from '../stores';
 
     basicsLeak.set([
         { name: "Water", cost: 30 },
@@ -76,6 +77,8 @@
     <h4 class="subheader secondary-color">Stop the bleeding and start saving</h4>
     <Input />
     <br><br>
+    <Monthly />
+    <br>
     <div class="row">
         <Stage name={"Basics"} />
     </div>
@@ -85,7 +88,7 @@
             <hr class="dash">
             <Options options={basicsOptions.filter(f => !$basicsLeak.map(m => m.name).includes(f.name))} type={"bas"} />
         </div>
-        <Section data={{name: "$" +sum($basicsLeak), description: "That's a whole bunch of starbucks."}} />
+        <Section paycheck={($profile.income / 12 * .5) - sum($basicsLeak)} data={{name: "$" +sum($basicsLeak), description: "That's a whole bunch of starbucks."}} />
     </div>
     <div class="row">
         <Stage name={"Subscriptions"} />
@@ -96,7 +99,7 @@
             <hr class="dash">
             <Options options={subscriptionsOptions.filter(f => !$subscriptionsLeak.map(m => m.name).includes(f.name))} type={"sub"} />
         </div>
-        <Section data={{name: "$" +sum($subscriptionsLeak), description: "That's a whole bunch of starbucks."}} />
+        <Section paycheck={($profile.income / 12 * .5) - sum($basicsLeak) - sum($subscriptionsLeak)} data={{name: "$" +sum($subscriptionsLeak), description: "That's a whole bunch of starbucks."}} />
     </div>
     <div class="row">
         <Stage name={"Habits"} />
@@ -107,7 +110,7 @@
             <hr class="dash">
             <Options options={habitsOptions.filter(f => !$habitsLeak.map(m => m.name).includes(f.name))} type={"hab"} />
         </div>
-        <Section data={{name: "$" +sum($habitsLeak), description: "That's a whole bunch of starbucks."}} />
+        <Section paycheck={($profile.income / 12 * .5) - sum($basicsLeak) - sum($subscriptionsLeak) - sum($habitsLeak)} data={{name: "$" +sum($habitsLeak), description: "That's a whole bunch of starbucks."}} />
     </div>
 </div>
 
